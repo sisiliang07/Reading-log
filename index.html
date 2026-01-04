@@ -629,8 +629,42 @@ html, body{
   min-width:0;
   white-space: nowrap;
 }
+/* ===== 手机端：记录列表更紧凑（不需要左右滑动）===== */
+@media (max-width: 520px){
+  /* 外层留白再收紧（更接近你原来的观感） */
+  .wrap{ padding-left: 8px !important; padding-right: 8px !important; }
 
-</style>
+  /* 只收紧“记录列表”这张卡的左右内边距 */
+  #listCard{ padding-left: 6px !important; padding-right: 6px !important; }
+
+  /* 表格固定布局：把宽度分配稳定下来，避免撑出屏幕 */
+  #listCard table{ table-layout: fixed; width: 100%; }
+
+  /* 表头/单元格更紧凑 */
+  #listCard thead th{ padding: 10px 6px !important; font-size: 12px !important; white-space: nowrap; }
+  #listCard tbody td{ padding: 10px 6px !important; font-size: 13px !important; vertical-align: middle; }
+
+  /* 固定列宽：给“书名”留最大空间（书名列=剩余宽度） */
+  #listCard th:nth-child(1), #listCard td:nth-child(1){ width: 34px !important; }
+  #listCard th:nth-child(3), #listCard td:nth-child(3){ width: 44px !important; }  /* ⭐ */
+  #listCard th:nth-child(4), #listCard td:nth-child(4){ width: 44px !important; }  /* 天数 */
+  #listCard th:nth-child(5), #listCard td:nth-child(5){ width: 52px !important; }  /* 分钟 */
+  #listCard th:nth-child(6), #listCard td:nth-child(6){ width: 72px !important; }  /* 操作 */
+
+  /* 书名：允许自然换行，但不要“逐字竖排” */
+  #listCard td:nth-child(2) div{
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
+    word-break: normal !important;
+    hyphens: auto;
+  }
+
+  /* 操作按钮稍微紧凑一点，确保两按钮都能显示 */
+  #listCard .ops{ gap: 6px !important; flex-wrap: nowrap !important; }
+  #listCard .ops button{ padding: 8px 10px !important; font-size: 12px !important; }
+}
+
+  </style>
 </head>
 
 <body>
@@ -723,7 +757,7 @@ html, body{
         </div>
 
         <!-- Right: List -->
-        <div class="card">
+        <div class="card" id="listCard">
           <div class="sectionTitle">
             <h2>🗂️ 记录列表</h2>
             <div class="rightTools">
