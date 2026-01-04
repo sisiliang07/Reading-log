@@ -390,6 +390,77 @@
       color: rgba(92,97,112,.85);
     }
 
+/* ====== 1) “添加记录”标题行：左标题 + 右侧年份下拉 强制同一行对齐 ====== */
+/* 兼容不同命名：headerRow / formHead / formHeader / addHead / headRow */
+.headerRow, .formHead, .formHeader, .addHead, .headRow{
+  display: flex !important;
+  align-items: center !important;          /* 垂直居中 */
+  justify-content: space-between !important;/* 左右贴边 */
+  gap: 12px !important;
+}
+
+/* 如果你的标题是 h2 / h3 / .sectionTitle */
+.headerRow h2, .headerRow h3,
+.formHead h2, .formHead h3,
+.formHeader h2, .formHeader h3,
+.addHead h2, .addHead h3,
+.headRow h2, .headRow h3,
+.sectionTitle{
+  margin: 0 !important;
+  line-height: 1.2 !important;
+}
+
+/* 右上角下拉：固定高度、避免把行撑歪 */
+.headerRow select, .formHead select, .formHeader select, .addHead select, .headRow select,
+#yearFilter{
+  height: 36px !important;
+  padding: 0 12px !important;
+  border-radius: 999px !important;
+  line-height: 36px !important;
+  white-space: nowrap !important;
+}
+
+/* 如果右侧下拉外面包了一个容器（常见：.rightTools / .selectWrap）也一起对齐 */
+.rightTools, .selectWrap{
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+/* ====== 2) 统计卡片：三格等宽，保证同高度，同对齐 ====== */
+.stats{
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 12px !important;
+  align-items: stretch !important;
+}
+.stats .stat, .stats .card, .stats .box{
+  min-height: 92px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+/* ====== 3) 按钮行：避免按钮高低不齐 ====== */
+.actionsRow, .btnRow, .formActions{
+  display: flex !important;
+  gap: 12px !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+}
+.actionsRow button, .btnRow button, .formActions button{
+  height: 42px !important;
+  border-radius: 999px !important;
+}
+
+/* ====== 4) 卡片内控件宽度：让输入框和星星区更整齐 ====== */
+input[type="text"], input[type="number"]{
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
   </style>
 </head>
 
