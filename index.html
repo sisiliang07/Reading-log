@@ -77,28 +77,33 @@
       letter-spacing: .2px;
     }
     .subtitle{
-      margin: 8px 0 0;
+      margin: 6px 0 0;
       color: var(--muted);
-      font-size: 14px;
-      line-height: 1.35;
+      font-size: 13px;
+      line-height: 1.25;
     }
-    .chips{
-      margin-top: 10px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-    }
+
+.chips{
+  margin-top: 10px;
+  display:flex;
+  flex-wrap: nowrap;   /* ← 把 wrap 改成 nowrap */
+  gap:8px;
+  overflow-x: auto;    /* ← 新增：不够就横向滑动，不换行 */
+  -webkit-overflow-scrolling: touch; /* ← iOS 滑动更顺 */
+}
     .chip{
       display:inline-flex;
       align-items:center;
       gap:8px;
-      padding: 8px 12px;
+      padding: 5px 10px;
       border-radius: 999px;
       background: rgba(255,255,255,.65);
       border:1px solid rgba(255,255,255,.7);
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
       box-shadow: 0 8px 18px rgba(40,20,90,.06);
+white-space: nowrap;
+
     }
 
     .grid{
