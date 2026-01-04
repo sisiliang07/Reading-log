@@ -209,39 +209,39 @@ white-space: nowrap;
     }
     @media (max-width: 520px){
   /* 页面整体左右收紧 */
-  .wrap{ padding-left: 8px !important; padding-right: 8px !important; }
+  .wrap{ padding-left: 4px !important; padding-right: 4px !important; }
 
   /* 仅收紧“记录列表”卡片内部左右留白 */
-  #listCard{ padding-left: 4px !important; padding-right: 4px !important; }
+  #listCard{ padding-left: 2px !important; padding-right: 2px !important; }
 
   /* 表格固定布局：明确列宽，让书名拿到更多空间 */
   #listCard table.recordsTable{ table-layout: fixed !important; width: 100% !important; }
   #listCard table.recordsTable col:nth-child(1){ width: 28px !important; }  /* # */
-  #listCard table.recordsTable col:nth-child(3){ width: 88px !important; }  /* ⭐：一行 1-5 星 */
-  #listCard table.recordsTable col:nth-child(4){ width: 40px !important; }  /* 天数 */
-  #listCard table.recordsTable col:nth-child(5){ width: 44px !important; }  /* 分钟 */
-  #listCard table.recordsTable col:nth-child(6){ width: 44px !important; }  /* 操作：两行 */
+  #listCard table.recordsTable col:nth-child(3){ width: 78px !important; }  /* ⭐：一行 1-5 星 */
+  #listCard table.recordsTable col:nth-child(4){ width: 38px !important; }  /* 天数 */
+  #listCard table.recordsTable col:nth-child(5){ width: 40px !important; }  /* 分钟 */
+  #listCard table.recordsTable col:nth-child(6){ width: 40px !important; }  /* 操作：两行 */
 
   /* 书名：尽量按“词”换行，不拆单词 */
   #listCard td:nth-child(2){
-    word-break: normal !important;
+    word-break: keep-all !important;
     overflow-wrap: normal !important;
     hyphens: none !important;
   }
 
   /* ⭐ 列：不换行 + 稍小 + 与书名留空 */
   #listCard th:nth-child(3), #listCard td:nth-child(3){
-    padding-left: 14px !important;
+    padding-left: 18px !important;
     white-space: nowrap !important;
   }
-  #listCard td:nth-child(3) .stars{ font-size: 15px !important; letter-spacing: 1px !important; }
+  #listCard td:nth-child(3) .stars{ font-size: 14px !important; letter-spacing: 1px !important; }
 
   /* 天数/分钟：表头与数字居中对齐，并更靠近操作列 */
   #listCard th:nth-child(4), #listCard td:nth-child(4),
   #listCard th:nth-child(5), #listCard td:nth-child(5){
     text-align: center !important;
-    padding-left: 4px !important;
-    padding-right: 4px !important;
+    padding-left: 2px !important;
+    padding-right: 2px !important;
   }
 
   /* 操作列：两行小字居中，占更少宽度 */
@@ -258,7 +258,7 @@ white-space: nowrap;
     justify-content: center !important;
   }
   #listCard td:nth-child(6) .btnMini{
-    font-size: 11px !important;
+    font-size: 10.5px !important;
     padding: 6px 6px !important;
     line-height: 1.05 !important;
     min-width: 0 !important;
@@ -790,7 +790,7 @@ html, body{ overflow-x: hidden; }
     justify-content: center !important;
   }
   #listCard td:nth-child(6) .btnMini{
-    font-size: 11px !important;
+    font-size: 10.5px !important;
     padding: 6px 8px !important;
     line-height: 1.05 !important;
     min-width: 0 !important;
