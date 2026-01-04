@@ -1,527 +1,1110 @@
 <!doctype html>
-<html lang="zh">
+<html lang="zh-Hans">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Yoyi-Reading" />
+  <meta name="theme-color" content="#F6EFFF" />
 
-  <title>Yoyi‘s Reading</title>
-  <meta name="description" content="Reading log for kids: books, days, minutes, rating." />
+  <title>Yoyi-Reading</title>
 
-  <!-- iOS: Add to Home Screen -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Reading Log">
-
-  <!-- iOS Home Screen icon (MOST IMPORTANT) -->
-  <link rel="apple-touch-icon" sizes="180x180" href="./icon-180.png">
-
-  <!-- Favicons (optional but nice) -->
-  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16.png">
-
-  <!-- Web App Manifest (mainly for Android/Chrome; harmless for iOS) -->
-  <link rel="manifest" href="./manifest.webmanifest">
-
-  <!-- Helps some browsers color UI -->
-  <meta name="theme-color" content="#ff4da6">
+  <!-- Icon（可选：如果你仓库里有这些文件，会自动生效；没有也不影响使用） -->
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="icon" href="icon.png" />
+  <!-- 你的仓库里目前有 IMG_9659.png 等文件名，这里也加一个兜底 -->
+  <link rel="icon" href="IMG_9659.png" />
 
   <style>
     :root{
-      --bg:#fff7fb;
-      --card:#ffffff;
-      --ink:#1f2937;
-      --muted:#6b7280;
-      --line:#f0d7e6;
-      --accent:#ff4da6;
-      --accent2:#7c3aed;
-      --btn:#111827;
-      --danger:#ef4444;
-      --shadow:0 10px 30px rgba(0,0,0,.08);
-      --radius:18px;
+      --bg1:#f7f0ff;
+      --bg2:#ffeef6;
+      --card:#ffffffcc;
+      --ink:#1f2430;
+      --muted:#5c6170;
+      --stroke:#ffffffa8;
+      --shadow: 0 18px 60px rgba(40, 20, 90, .12);
+      --shadow2: 0 10px 30px rgba(40, 20, 90, .10);
+      --radius:22px;
+      --radius2:16px;
+      --accent:#6c63ff;
+      --accent2:#b56cff;
+      --danger:#ff4d4f;
+      --ok:#24a148;
     }
-    *{box-sizing:border-box}
+    *{ box-sizing:border-box; }
     body{
       margin:0;
-      font-family: system-ui, -apple-system, "PingFang SC", "Noto Sans CJK SC", Arial, sans-serif;
+      font-family: -apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Noto Sans SC",system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       color:var(--ink);
-      background:
-        radial-gradient(1200px 500px at 30% -10%, rgba(255,77,166,.20), transparent 60%),
-        radial-gradient(900px 400px at 90% 0%, rgba(124,58,237,.14), transparent 60%),
-        var(--bg);
+      background: radial-gradient(1200px 800px at 20% 10%, var(--bg1) 0%, transparent 55%),
+                  radial-gradient(1000px 700px at 90% 10%, var(--bg2) 0%, transparent 55%),
+                  linear-gradient(180deg, #fff 0%, #faf7ff 40%, #fff 100%);
       min-height:100vh;
-      padding: 18px 14px 40px;
     }
-    .wrap{max-width:920px;margin:0 auto}
-    header{
-      display:flex;align-items:flex-end;justify-content:space-between;gap:10px;
-      margin: 6px 2px 14px;
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 20px 14px 60px;
     }
-    h1{margin:0;font-size:22px;letter-spacing:.2px;}
-    .subtitle{color:var(--muted);font-size:13px;margin-top:4px}
-    .pill{
-      background: rgba(255,255,255,.7);
-      border: 1px solid rgba(255,255,255,.9);
-      backdrop-filter: blur(10px);
-      border-radius:999px;
-      padding:8px 10px;
+    .hero{
+      background: linear-gradient(135deg, rgba(108,99,255,.12), rgba(181,108,255,.10));
+      border:1px solid var(--stroke);
       box-shadow: var(--shadow);
-      font-size:12px;
-      color:var(--muted);
-      white-space:nowrap;
-    }
-    .grid{display:grid;grid-template-columns: 360px 1fr;gap:14px;}
-    @media (max-width: 860px){.grid{grid-template-columns:1fr}}
-    .card{
-      background: rgba(255,255,255,.92);
-      border: 1px solid rgba(255,255,255,.9);
       border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      padding: 18px 16px 16px;
+      backdrop-filter: blur(10px);
+    }
+    .top{
+      display:flex;
+      align-items:flex-start;
+      gap: 12px;
+    }
+    .badge{
+      width:56px;height:56px;
+      border-radius: 16px;
+      display:flex;align-items:center;justify-content:center;
+      background: linear-gradient(135deg, rgba(108,99,255,.22), rgba(255,192,203,.18));
+      border:1px solid rgba(255,255,255,.75);
+      box-shadow: var(--shadow2);
+      flex:0 0 auto;
+      font-size: 28px;
+    }
+    h1{
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.05;
+      letter-spacing: .2px;
+    }
+    .subtitle{
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+    .chips{
+      margin-top: 10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.65);
+      border:1px solid rgba(255,255,255,.7);
+      color: var(--muted);
+      font-size: 13px;
+      box-shadow: 0 8px 18px rgba(40,20,90,.06);
+    }
+
+    .grid{
+      margin-top: 16px;
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+    }
+    @media (max-width: 820px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+    .card{
+      background: var(--card);
+      border:1px solid var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow2);
       padding: 14px;
+      backdrop-filter: blur(10px);
     }
-    .card h2{
-      font-size:15px;margin:0 0 10px;
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
+    .sectionTitle{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:10px;
     }
-    .hint{color:var(--muted);font-size:12px}
-    label{display:block;font-size:12px;color:var(--muted);margin:10px 0 6px}
+    .sectionTitle h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.2px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .rightTools{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    /* Year filter */
+    .select{
+      appearance:none;
+      -webkit-appearance:none;
+      border:1px solid rgba(255,255,255,.8);
+      background: rgba(255,255,255,.75);
+      color: var(--ink);
+      padding: 10px 38px 10px 12px;
+      border-radius: 14px;
+      font-size: 14px;
+      box-shadow: 0 8px 18px rgba(40,20,90,.06);
+      position: relative;
+      outline: none;
+      cursor: pointer;
+    }
+    .selectWrap{
+      position: relative;
+      display:inline-block;
+    }
+    .selectWrap:after{
+      content:"▾";
+      position:absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-52%);
+      color: var(--muted);
+      pointer-events:none;
+      font-size: 14px;
+    }
+
+    /* Stats */
+    .stats{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .stat{
+      background: rgba(255,255,255,.72);
+      border:1px dashed rgba(108,99,255,.22);
+      border-radius: 16px;
+      padding: 12px;
+      text-align:center;
+      box-shadow: 0 8px 18px rgba(40,20,90,.05);
+    }
+    .stat .v{ font-size: 26px; font-weight: 800; letter-spacing:.2px; }
+    .stat .k{ margin-top:4px; color: var(--muted); font-size: 13px; }
+
+    /* Form */
+    .formGrid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .row2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    @media (max-width: 520px){
+      .row2{ grid-template-columns: 1fr; }
+    }
+    label{
+      display:block;
+      font-weight: 700;
+      font-size: 14px;
+      margin: 2px 0 6px;
+      color: #2a2f3d;
+    }
     input{
       width:100%;
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:12px 12px;
-      font-size:14px;
-      outline:none;
-      background:#fff;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.85);
+      background: rgba(255,255,255,.70);
+      outline: none;
+      font-size: 15px;
+      color: var(--ink);
+      box-shadow: 0 8px 18px rgba(40,20,90,.05);
     }
-    input:focus{border-color: rgba(255,77,166,.55); box-shadow: 0 0 0 4px rgba(255,77,166,.10)}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    input::placeholder{ color: rgba(92,97,112,.75); }
+    .hint{
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 6px;
+      line-height: 1.35;
+    }
+
+    /* Stars */
     .stars{
-      display:flex;gap:8px;align-items:center;
-      padding:10px 10px;
-      border:1px solid var(--line);
-      border-radius:14px;
-      background:#fff;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.85);
+      background: rgba(255,255,255,.70);
+      box-shadow: 0 8px 18px rgba(40,20,90,.05);
+    }
+    .starBtn{
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.9);
+      background: rgba(255,255,255,.8);
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      font-size: 22px;
+      transition: transform .06s ease;
       user-select:none;
     }
-    .star{
-      width:34px;height:34px;border-radius:12px;
-      border:1px solid rgba(0,0,0,.06);
-      background:#fff;
-      display:grid;place-items:center;
-      font-size:18px;cursor:pointer;
-      transition: transform .06s ease;
+    .starBtn:active{ transform: scale(.96); }
+    .starBtn.on{
+      background: rgba(255, 241, 170, .9);
+      border-color: rgba(255, 223, 100, .95);
+      box-shadow: 0 8px 18px rgba(255, 200, 20, .14);
     }
-    .star:active{transform: scale(.96)}
-    .star.is-on{background: rgba(255,77,166,.12); border-color: rgba(255,77,166,.35)}
-    .starHint{margin-left:auto;color:var(--muted);font-size:12px}
-    .actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
-    .btn{
-      border:none;border-radius:999px;
-      padding:10px 14px;font-size:13px;cursor:pointer;
-      background: var(--btn);color:#fff;
+    .starNote{ color: var(--muted); font-size: 13px; margin-left: 6px; }
+
+    /* Buttons */
+    .btnRow{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      margin-top: 12px;
     }
-    .btn:active{transform: translateY(1px)}
-    .btn.ghost{background:#fff;color: var(--ink);border:1px solid rgba(0,0,0,.08);}
-    .btn.danger{background: var(--danger);color:#fff;}
-    .btn.small{padding:8px 10px;font-size:12px}
-    .stats{display:grid;grid-template-columns: repeat(3, 1fr);gap:10px;margin-top:12px;}
-    .stat{
-      background:#fff;border:1px solid rgba(0,0,0,.06);
-      border-radius:16px;padding:10px 10px;text-align:center;
+    button{
+      border: none;
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor:pointer;
+      box-shadow: 0 10px 24px rgba(40,20,90,.12);
+      user-select:none;
     }
-    .stat .n{font-size:18px;font-weight:800}
-    .stat .t{font-size:12px;color:var(--muted);margin-top:2px}
-    .backup-bar{display:flex;gap:10px;margin-top:10px;justify-content:flex-end;}
-    table{width:100%;border-collapse:collapse}
-    th, td{
-      padding:10px 8px;
-      border-bottom:1px solid rgba(0,0,0,.06);
-      font-size:13px;
-      vertical-align:middle;
+    .btnPrimary{
+      background: linear-gradient(135deg, #0f172a, #0b1024);
+      color: #fff;
+      padding-left: 18px;
+      padding-right: 18px;
     }
-    th{color:var(--muted);font-weight:700;text-align:left;font-size:12px}
-    .col-no{width:46px}
-    .col-stars{width:110px}
-    .col-num{width:92px;text-align:center}
-    .col-actions{width:140px;text-align:right}
-    .stars-mini{letter-spacing:1px;color:#ff4da6;font-weight:800}
-    .muted{color:var(--muted)}
+    .btnGhost{
+      background: rgba(255,255,255,.7);
+      border: 1px solid rgba(255,255,255,.85);
+      color: var(--ink);
+      box-shadow: 0 10px 24px rgba(40,20,90,.08);
+    }
+    .btnDanger{
+      background: linear-gradient(135deg, #ff4d4f, #ff7a7c);
+      color:#fff;
+    }
+    .btnMini{
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 14px;
+      box-shadow: 0 10px 24px rgba(40,20,90,.10);
+    }
+
+    /* List */
+    .listHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom: 10px;
+    }
+    .listHint{
+      color: var(--muted);
+      font-size: 12px;
+    }
+    table{
+      width:100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow:hidden;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.85);
+      background: rgba(255,255,255,.70);
+      box-shadow: 0 10px 24px rgba(40,20,90,.06);
+    }
+    thead th{
+      text-align:left;
+      font-size: 13px;
+      color: var(--muted);
+      padding: 12px 12px;
+      border-bottom: 1px solid rgba(200,210,255,.35);
+      background: rgba(255,255,255,.55);
+      white-space:nowrap;
+    }
+    tbody td{
+      padding: 12px 12px;
+      border-bottom: 1px solid rgba(200,210,255,.25);
+      font-size: 14px;
+      vertical-align: middle;
+    }
+    tbody tr:last-child td{ border-bottom:none; }
+    .ops{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .tagYear{
+      display:inline-flex;
+      align-items:center;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: #374151;
+      background: rgba(108,99,255,.12);
+      border: 1px solid rgba(108,99,255,.18);
+      margin-left: 8px;
+      white-space:nowrap;
+    }
+    .muted{ color: var(--muted); }
+
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      background: rgba(20,20,30,.92);
+      color:#fff;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      opacity: 0;
+      pointer-events:none;
+      transition: opacity .18s ease, transform .18s ease;
+      z-index: 9999;
+    }
+    .toast.on{
+      opacity: 1;
+      transform: translateX(-50%) translateY(-2px);
+    }
+    .smallLine{
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height:1.35;
+    }
+
+    .debugLine{
+      margin-top: 8px;
+      font-size: 12px;
+      color: rgba(92,97,112,.85);
+    }
+
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <header>
-      <div>
-        <h1>📚 Yoyi-Reading</h1>
-        <div class="subtitle">记录一本书的阅读天数、总时长和喜爱度（1–5⭐）</div>
+    <div class="hero">
+      <div class="top">
+        <div class="badge">📚</div>
+        <div style="flex:1">
+          <h1>Yoyi-Reading</h1>
+          <p class="subtitle">记录一本书的阅读天数、总时长和喜爱度（1–5⭐）</p>
+          <div class="chips">
+            <div class="chip">适合孩子</div>
+            <div class="chip">轻量记录</div>
+            <div class="chip">看得见积累 ✨</div>
+          </div>
+          <div class="debugLine" id="initLine"></div>
+        </div>
       </div>
-      <div class="pill">适合孩子｜轻量记录｜看得见积累</div>
-    </header>
 
-    <div class="grid">
-      <section class="card">
-        <h2>
-          <span>➕ 添加记录</span>
-          <span class="hint" id="modeHint">新记录</span>
-        </h2>
-
-        <form id="bookForm">
-          <input type="hidden" id="editingId" value="">
-
-          <label>书名</label>
-          <input id="titleInput" autocomplete="off" placeholder="例如：Who Was…?" />
-
-          <label>喜爱度</label>
-          <div class="stars" id="starPicker">
-            <button class="star" type="button" data-value="1">⭐</button>
-            <button class="star" type="button" data-value="2">⭐</button>
-            <button class="star" type="button" data-value="3">⭐</button>
-            <button class="star" type="button" data-value="4">⭐</button>
-            <button class="star" type="button" data-value="5">⭐</button>
-            <div class="starHint" id="starHint">点星星选择（可不选）</div>
-          </div>
-
-          <div class="row">
-            <div>
-              <label>阅读天数（数字）</label>
-              <input id="daysInput" inputmode="numeric" placeholder="例如：2" />
-            </div>
-            <div>
-              <label>阅读总时长（分钟）</label>
-              <input id="minutesInput" inputmode="numeric" placeholder="例如：35" />
+      <div class="grid">
+        <!-- Left: Form + Stats -->
+        <div class="card">
+          <div class="sectionTitle">
+            <h2>➕ 添加记录</h2>
+            <div class="rightTools">
+              <div class="selectWrap">
+                <select id="yearFilter" class="select" title="按年筛选">
+                  <option value="ALL">全部年份</option>
+                </select>
+              </div>
             </div>
           </div>
 
-          <div class="actions">
-            <button id="submitBtn" class="btn" type="submit">添加到列表</button>
-            <button id="resetBtn" class="btn ghost" type="button">清空输入</button>
-            <button id="clearAllBtn" class="btn danger" type="button">清空全部</button>
-          </div>
-        </form>
+          <div class="formGrid">
+            <div>
+              <label>书名</label>
+              <input id="titleInput" placeholder="例如：Who Was...?" maxlength="120" />
+            </div>
 
-        <div class="stats" aria-label="累计统计">
-          <div class="stat">
-            <div class="n" id="totalBooks">0</div>
-            <div class="t">累计本数</div>
-          </div>
-          <div class="stat">
-            <div class="n" id="totalDays">0</div>
-            <div class="t">累计天数</div>
-          </div>
-          <div class="stat">
-            <div class="n"><span id="totalMinutes">0</span><span class="muted" id="totalPretty"></span></div>
-            <div class="t">累计时长</div>
+            <div>
+              <label>喜爱度</label>
+              <div class="stars" id="starBar" aria-label="喜爱度星星">
+                <div class="starBtn" data-v="1">⭐</div>
+                <div class="starBtn" data-v="2">⭐</div>
+                <div class="starBtn" data-v="3">⭐</div>
+                <div class="starBtn" data-v="4">⭐</div>
+                <div class="starBtn" data-v="5">⭐</div>
+                <div class="starNote">点星星选择（可不选）</div>
+              </div>
+            </div>
+
+            <div class="row2">
+              <div>
+                <label>阅读天数（数字）</label>
+                <input id="daysInput" inputmode="numeric" placeholder="例如：2" />
+              </div>
+              <div>
+                <label>阅读总时长（分钟）</label>
+                <input id="minsInput" inputmode="numeric" placeholder="例如：35" />
+              </div>
+            </div>
+
+            <div class="btnRow">
+              <button class="btnPrimary" id="addBtn">添加到列表</button>
+              <button class="btnGhost" id="clearBtn">清空输入</button>
+              <button class="btnDanger" id="clearAllBtn">清空全部</button>
+            </div>
+
+            <div class="stats" id="statsGrid">
+              <div class="stat">
+                <div class="v" id="statBooks">0</div>
+                <div class="k">累计本数</div>
+              </div>
+              <div class="stat">
+                <div class="v" id="statDays">0</div>
+                <div class="k">累计天数</div>
+              </div>
+              <div class="stat">
+                <div class="v" id="statMins">0</div>
+                <div class="k">累计时长</div>
+              </div>
+            </div>
+
+            <div class="btnRow" style="justify-content:flex-end">
+              <button class="btnGhost btnMini" id="backupJsonBtn">🗂️ 备份(JSON)</button>
+              <button class="btnGhost btnMini" id="restoreJsonBtn">📥 恢复(JSON)</button>
+              <button class="btnGhost btnMini" id="backupClipBtn">📋 备份(剪贴板)</button>
+              <button class="btnGhost btnMini" id="restoreClipBtn">📋 恢复(剪贴板)</button>
+            </div>
+
+            <div class="smallLine">
+              提示：主屏幕图标（Web App）和 Safari 链接可能是两份不同的本地数据。日常请从主屏幕打开；改代码前先备份一次会更安心。
+            </div>
+
+            <input id="restoreFileInput" type="file" accept="application/json" style="display:none;" />
           </div>
         </div>
 
-        <div class="backup-bar">
-          <button id="backupBtn" class="btn ghost small" type="button">📤 备份</button>
-          <button id="restoreBtn" class="btn ghost small" type="button">📥 恢复</button>
-        </div>
+        <!-- Right: List -->
+        <div class="card">
+          <div class="sectionTitle">
+            <h2>🗂️ 记录列表</h2>
+            <div class="rightTools">
+              <span class="listHint" id="listHint">可编辑 / 删除</span>
+            </div>
+          </div>
 
-        <div class="hint" style="margin-top:8px;">
-          提示：备份用于防止极少数情况下 iOS 清理数据（一般不用频繁操作）。
-        </div>
-      </section>
+          <div class="listHead">
+            <div class="listHint" id="listMeta"></div>
+            <div class="ops">
+              <button class="btnGhost btnMini" id="sortNewBtn">最新在前</button>
+              <button class="btnGhost btnMini" id="sortOldBtn">最早在前</button>
+            </div>
+          </div>
 
-      <section class="card">
-        <h2>📒 记录列表 <span class="hint">可编辑 / 删除</span></h2>
-        <div style="overflow:auto">
-          <table>
-            <thead>
-              <tr>
-                <th class="col-no">#</th>
-                <th>书名</th>
-                <th class="col-stars">喜爱度</th>
-                <th class="col-num">天数</th>
-                <th class="col-num">分钟</th>
-                <th class="col-actions">操作</th>
-              </tr>
-            </thead>
-            <tbody id="listBody"></tbody>
-          </table>
+          <div style="overflow:auto; border-radius:16px;">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:70px;">#</th>
+                  <th>书名</th>
+                  <th style="width:70px;">⭐</th>
+                  <th style="width:80px;">天数</th>
+                  <th style="width:90px;">分钟</th>
+                  <th style="width:140px; text-align:right;">操作</th>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+
+          <div class="smallLine muted" id="emptyTip" style="display:none; margin-top:10px;">
+            还没有记录。先添加一本到列表吧 🙂
+          </div>
         </div>
-        <div class="hint" style="margin-top:10px;">
-          编辑：点击“编辑”后会自动回填到左侧表单，按钮会变成“保存修改”。
-        </div>
-      </section>
+      </div>
     </div>
   </div>
 
+  <div class="toast" id="toast"></div>
+
   <script>
-  (() => {
-    const STORAGE_KEY = "kid_reading_star_log_v1";
-    let started = false;
-
-    const $ = (id) => document.getElementById(id);
-
-    const clampInt = (v) => {
-      if (v === "" || v === null || typeof v === "undefined") return 0;
-      const n = Number(v);
-      if (!Number.isFinite(n)) return 0;
-      return Math.max(0, Math.floor(n));
+    /**********************
+     * 0) 安全存储策略（防丢）
+     * - 自动识别你原先使用的 localStorage key（不强行改）
+     * - 同时镜像存一份到固定 key：yoyi_reading_log_v1（额外保险）
+     **********************/
+    const MIRROR_KEY = "yoyi_reading_log_v1"; // 我们的“保险镜像”
+    let ACTIVE_KEY = null;                    // 自动识别出来的“原始 key”
+    let state = {
+      version: 1,
+      items: []   // {id,title,stars,days,mins,createdAt}
     };
 
-    const escapeHtml = (str) => String(str)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+    // 识别：哪些 localStorage 项可能是我们的数据
+    function looksLikeReadingData(obj){
+      if (!obj || typeof obj !== "object") return false;
 
-    const prettyMinutes = (min) => {
-      const m = clampInt(min);
-      const h = Math.floor(m / 60);
-      const r = m % 60;
-      return `${h}h ${r}m`;
-    };
+      // 支持多种结构：{items:[...]} 或直接是数组
+      const items = Array.isArray(obj) ? obj : obj.items;
+      if (!Array.isArray(items)) return false;
 
-    const starsText = (rating) => {
-      const r = Math.min(5, clampInt(rating));
-      if (!r) return '<span class="muted">—</span>';
-      return `<span class="stars-mini">${"★".repeat(r)}${"☆".repeat(5 - r)}</span>`;
-    };
-
-    const uid = () => Math.random().toString(16).slice(2) + Date.now().toString(16);
-
-    const safeSave = (books) => {
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(books)); return true; }
-      catch { return false; }
-    };
-
-    const safeLoad = () => {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return [];
-        const arr = JSON.parse(raw);
-        if (!Array.isArray(arr)) return [];
-        return arr.map(x => ({
-          id: String(x.id || uid()),
-          title: String(x.title || "").trim(),
-          days: clampInt(x.days),
-          minutes: clampInt(x.minutes),
-          rating: clampInt(x.rating),
-          createdAt: Number(x.createdAt || Date.now()),
-        })).filter(x => x.title.length > 0);
-      } catch {
-        return [];
+      // 尝试检查前几条是否有 title 字段（或书名字段）
+      const sample = items.slice(0, 3);
+      for (const it of sample){
+        if (!it || typeof it !== "object") continue;
+        const t = it.title ?? it.bookTitle ?? it.name ?? it.BookTitle;
+        if (typeof t === "string" && t.trim().length > 0) return true;
       }
-    };
+      // 空数组也视为可用结构（但优先级低）
+      return items.length === 0;
+    }
 
-    const startWhenReady = () => {
-      if (started) return;
-      const required = [
-        "bookForm","titleInput","daysInput","minutesInput",
-        "editingId","submitBtn","resetBtn","clearAllBtn",
-        "listBody","totalBooks","totalDays","totalMinutes",
-        "totalPretty","starPicker","starHint","modeHint",
-        "backupBtn","restoreBtn"
-      ];
-      const missing = required.filter(id => !$(id));
-      if (missing.length) { setTimeout(startWhenReady, 60); return; }
-      started = true;
-      initApp();
-    };
+    function parseMaybeJSON(raw){
+      try { return JSON.parse(raw); } catch(e){ return null; }
+    }
 
-    const initApp = () => {
-      const els = {
-        form: $("bookForm"),
-        title: $("titleInput"),
-        days: $("daysInput"),
-        minutes: $("minutesInput"),
-        editingId: $("editingId"),
-        submitBtn: $("submitBtn"),
-        resetBtn: $("resetBtn"),
-        clearAllBtn: $("clearAllBtn"),
-        listBody: $("listBody"),
-        totalBooks: $("totalBooks"),
-        totalDays: $("totalDays"),
-        totalMinutes: $("totalMinutes"),
-        totalPretty: $("totalPretty"),
-        starPicker: $("starPicker"),
-        starHint: $("starHint"),
-        modeHint: $("modeHint"),
-        backupBtn: $("backupBtn"),
-        restoreBtn: $("restoreBtn"),
-      };
+    // 从 localStorage 自动寻找“最像”的那条记录数据
+    function findBestKey(){
+      // 1) 先看镜像 key
+      const mirrorRaw = localStorage.getItem(MIRROR_KEY);
+      const mirrorObj = mirrorRaw ? parseMaybeJSON(mirrorRaw) : null;
+      if (mirrorObj && looksLikeReadingData(mirrorObj)) return MIRROR_KEY;
 
-      const state = {
-        books: safeLoad(),
-        currentRating: 0,
-      };
+      // 2) 扫描所有 key
+      const keys = [];
+      for (let i=0;i<localStorage.length;i++){
+        const k = localStorage.key(i);
+        if (k) keys.push(k);
+      }
 
-      const setModeText = () => {
-        els.modeHint.textContent = els.editingId.value ? "编辑中" : "新记录";
-      };
+      // 优先包含 reading / log / star / yoyi 的 key
+      const preferred = keys.sort((a,b)=>{
+        const score = (k)=>{
+          const s = k.toLowerCase();
+          let p=0;
+          if (s.includes("yoyi")) p+=5;
+          if (s.includes("reading")) p+=4;
+          if (s.includes("log")) p+=3;
+          if (s.includes("star")) p+=2;
+          return p;
+        };
+        return score(b)-score(a);
+      });
 
-      const setRating = (v) => {
-        state.currentRating = Math.min(5, clampInt(v));
-        els.starPicker.querySelectorAll(".star").forEach(btn => {
-          const val = clampInt(btn.dataset.value);
-          btn.classList.toggle("is-on", state.currentRating > 0 && val <= state.currentRating);
+      for (const k of preferred){
+        const raw = localStorage.getItem(k);
+        if (!raw) continue;
+        const obj = parseMaybeJSON(raw);
+        if (obj && looksLikeReadingData(obj)) return k;
+      }
+
+      return MIRROR_KEY; // 都没有就用镜像 key 新建
+    }
+
+    function normalizeToState(obj){
+      // 允许 obj 是数组 / 或 {items:[...]} / 或其它包裹形式
+      let items = [];
+      if (Array.isArray(obj)) items = obj;
+      else if (obj && Array.isArray(obj.items)) items = obj.items;
+      else items = [];
+
+      const norm = items.map((it, idx)=>{
+        const title = (it.title ?? it.bookTitle ?? it.name ?? "").toString();
+        const stars = Number(it.stars ?? it.rating ?? it.star ?? 0) || 0;
+        const days  = Number(it.days ?? it.day ?? it.readDays ?? 0) || 0;
+        const mins  = Number(it.mins ?? it.minutes ?? it.readMinutes ?? 0) || 0;
+        const createdAt = it.createdAt ?? it.date ?? it.created ?? it.ts ?? null;
+
+        return {
+          id: (it.id ?? cryptoRandomId()),
+          title: title.trim(),
+          stars: clamp(stars, 0, 5),
+          days: Math.max(0, Math.floor(days)),
+          mins: Math.max(0, Math.floor(mins)),
+          createdAt: normalizeTime(createdAt) ?? Date.now() // 没有就补一个
+        };
+      }).filter(it => it.title.length > 0);
+
+      return { version: 1, items: norm };
+    }
+
+    function readFromKey(key){
+      const raw = localStorage.getItem(key);
+      if (!raw) return null;
+      const obj = parseMaybeJSON(raw);
+      if (!obj) return null;
+
+      // 有些备份格式可能是 {data: {...}}
+      if (obj && obj.data) return normalizeToState(obj.data);
+      return normalizeToState(obj);
+    }
+
+    function writeState(){
+      // 写回 ACTIVE_KEY（保持你原来那份数据在）
+      const payload = JSON.stringify(state);
+
+      try{
+        localStorage.setItem(ACTIVE_KEY, payload);
+      }catch(e){
+        // 存储满了的情况
+        toast("⚠️ 保存失败：本地存储空间可能满了");
+        console.warn(e);
+      }
+
+      // 额外镜像一份（保险）
+      try{
+        localStorage.setItem(MIRROR_KEY, payload);
+      }catch(e){
+        console.warn("Mirror save failed:", e);
+      }
+    }
+
+    function init(){
+      ACTIVE_KEY = findBestKey();
+      const loaded = readFromKey(ACTIVE_KEY);
+      state = loaded ?? { version: 1, items: [] };
+
+      // 如果 ACTIVE_KEY 不是镜像 key，也把它镜像一份（保险）
+      writeState();
+
+      document.getElementById("initLine").textContent =
+        `存储：${ACTIVE_KEY === MIRROR_KEY ? "主存储" : "已识别原存储"}（安全镜像已开启）`;
+
+      rebuildYearOptions();
+      renderAll();
+    }
+
+    /**********************
+     * 1) 工具函数
+     **********************/
+    function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+
+    function cryptoRandomId(){
+      // iOS Safari 支持 crypto.getRandomValues
+      const buf = new Uint32Array(2);
+      crypto.getRandomValues(buf);
+      return "id_" + buf[0].toString(16) + buf[1].toString(16);
+    }
+
+    function normalizeTime(v){
+      if (!v) return null;
+      if (typeof v === "number") return v;
+      // 尝试解析日期字符串
+      const t = Date.parse(v);
+      if (!Number.isNaN(t)) return t;
+      return null;
+    }
+
+    function formatHM(totalMins){
+      const h = Math.floor(totalMins / 60);
+      const m = totalMins % 60;
+      return `${totalMins} (${h}h ${m}m)`;
+    }
+
+    function getYearFromItem(it){
+      try{
+        const d = new Date(it.createdAt);
+        const y = d.getFullYear();
+        if (!Number.isFinite(y)) return null;
+        return y;
+      }catch(e){
+        return null;
+      }
+    }
+
+    function toast(msg){
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.classList.add("on");
+      setTimeout(()=> el.classList.remove("on"), 1600);
+    }
+
+    /**********************
+     * 2) 年份筛选
+     **********************/
+    function rebuildYearOptions(){
+      const sel = document.getElementById("yearFilter");
+
+      const current = sel.value || "ALL";
+      const years = new Set();
+      for (const it of state.items){
+        const y = getYearFromItem(it);
+        if (y) years.add(y);
+      }
+      const arr = Array.from(years).sort((a,b)=>b-a);
+
+      // 清空（保留 ALL）
+      sel.innerHTML = `<option value="ALL">全部年份</option>` + arr.map(y=>`<option value="${y}">${y}</option>`).join("");
+
+      // 尽量保留原选择
+      if ([...sel.options].some(o=>o.value===current)){
+        sel.value = current;
+      }else{
+        sel.value = "ALL";
+      }
+    }
+
+    function getFilteredItems(){
+      const sel = document.getElementById("yearFilter").value;
+      if (sel === "ALL") return state.items.slice();
+      const y = Number(sel);
+      return state.items.filter(it => getYearFromItem(it) === y);
+    }
+
+    /**********************
+     * 3) 渲染
+     **********************/
+    let sortMode = "NEW"; // NEW / OLD
+
+    function renderAll(){
+      // 年份下拉会随新增变化
+      rebuildYearOptions();
+      renderStatsAndList();
+    }
+
+    function renderStatsAndList(){
+      const items = getFilteredItems();
+      const totalBooks = items.length;
+      const totalDays = items.reduce((s,it)=> s + (it.days||0), 0);
+      const totalMins = items.reduce((s,it)=> s + (it.mins||0), 0);
+
+      document.getElementById("statBooks").textContent = totalBooks;
+      document.getElementById("statDays").textContent  = totalDays;
+      document.getElementById("statMins").textContent  = formatHM(totalMins);
+
+      const sel = document.getElementById("yearFilter").value;
+      const meta = sel === "ALL"
+        ? `显示：全部记录（共 ${totalBooks} 本）`
+        : `显示：${sel} 年（共 ${totalBooks} 本）`;
+      document.getElementById("listMeta").textContent = meta;
+
+      // 排序
+      const sorted = items.slice().sort((a,b)=>{
+        return sortMode === "NEW" ? (b.createdAt - a.createdAt) : (a.createdAt - b.createdAt);
+      });
+
+      // 表格
+      const tb = document.getElementById("tbody");
+      tb.innerHTML = "";
+
+      document.getElementById("emptyTip").style.display = (sorted.length===0) ? "block" : "none";
+
+      sorted.forEach((it, idx)=>{
+        const tr = document.createElement("tr");
+
+        const y = getYearFromItem(it);
+        const yearTag = y ? `<span class="tagYear">${y}</span>` : "";
+
+        tr.innerHTML = `
+          <td>${idx+1}</td>
+          <td>
+            <div style="font-weight:800">${escapeHtml(it.title)} ${yearTag}</div>
+            <div class="muted" style="font-size:12px; margin-top:4px;">
+              ${new Date(it.createdAt).toLocaleDateString()}
+            </div>
+          </td>
+          <td>${it.stars ? "⭐".repeat(it.stars) : "—"}</td>
+          <td>${it.days || 0}</td>
+          <td>${it.mins || 0}</td>
+          <td style="text-align:right;">
+            <div class="ops">
+              <button class="btnGhost btnMini" data-act="edit" data-id="${it.id}">编辑</button>
+              <button class="btnDanger btnMini" data-act="del" data-id="${it.id}">删除</button>
+            </div>
+          </td>
+        `;
+        tb.appendChild(tr);
+      });
+
+      // 绑定操作按钮
+      tb.querySelectorAll("button").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const id = btn.getAttribute("data-id");
+          const act = btn.getAttribute("data-act");
+          if (act === "del") deleteItem(id);
+          if (act === "edit") startEdit(id);
         });
-        els.starHint.textContent = state.currentRating
-          ? `已选择：${state.currentRating} 星（再点可取消）`
-          : "点星星选择（可不选）";
-      };
+      });
+    }
 
-      const resetForm = () => {
-        els.form.reset();
-        els.editingId.value = "";
-        els.submitBtn.textContent = "添加到列表";
-        setRating(0);
-        setModeText();
-        els.title.focus();
-      };
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, m => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[m]));
+    }
 
-      const render = () => {
-        els.listBody.innerHTML = "";
-        state.books
-          .sort((a,b) => a.createdAt - b.createdAt)
-          .forEach((b, idx) => {
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-              <td class="col-no"><strong>${idx + 1}</strong></td>
-              <td>${escapeHtml(b.title)}</td>
-              <td class="col-stars">${starsText(b.rating)}</td>
-              <td class="col-num">${b.days || 0}</td>
-              <td class="col-num">${b.minutes || 0}</td>
-              <td class="col-actions">
-                <button class="btn ghost small" type="button" data-action="edit" data-id="${b.id}">编辑</button>
-                <button class="btn danger small" type="button" data-action="del" data-id="${b.id}">删除</button>
-              </td>
-            `;
-            els.listBody.appendChild(tr);
-          });
+    /**********************
+     * 4) 添加/编辑/删除
+     **********************/
+    let starValue = 0;
+    let editingId = null;
 
-        const totalBooks = state.books.length;
-        const totalDays = state.books.reduce((s,b) => s + clampInt(b.days), 0);
-        const totalMinutes = state.books.reduce((s,b) => s + clampInt(b.minutes), 0);
+    function setStars(v){
+      starValue = clamp(Number(v)||0, 0, 5);
+      document.querySelectorAll("#starBar .starBtn").forEach(el=>{
+        const n = Number(el.getAttribute("data-v"));
+        el.classList.toggle("on", starValue >= n && starValue>0);
+      });
+    }
 
-        els.totalBooks.textContent = String(totalBooks);
-        els.totalDays.textContent = String(totalDays);
-        els.totalMinutes.textContent = String(totalMinutes);
-        els.totalPretty.textContent = ` (${prettyMinutes(totalMinutes)})`;
-      };
+    function clearInputs(){
+      document.getElementById("titleInput").value = "";
+      document.getElementById("daysInput").value = "";
+      document.getElementById("minsInput").value = "";
+      setStars(0);
+      editingId = null;
+      document.getElementById("addBtn").textContent = "添加到列表";
+      toast("已清空输入");
+    }
 
-      const saveAndRender = () => { safeSave(state.books); render(); };
+    function addOrSave(){
+      const title = document.getElementById("titleInput").value.trim();
+      const daysRaw = document.getElementById("daysInput").value.trim();
+      const minsRaw = document.getElementById("minsInput").value.trim();
 
-      const addOrSave = () => {
-        const title = (els.title.value || "").trim();
-        if (!title) { els.title.focus(); return; }
+      if (!title){
+        toast("请输入书名");
+        return;
+      }
 
-        const days = clampInt(els.days.value);
-        const minutes = clampInt(els.minutes.value);
-        const rating = clampInt(state.currentRating);
-        const editingId = (els.editingId.value || "").trim();
+      const days = daysRaw ? Math.max(0, Math.floor(Number(daysRaw))) : 0;
+      const mins = minsRaw ? Math.max(0, Math.floor(Number(minsRaw))) : 0;
 
-        if (editingId) {
-          const i = state.books.findIndex(x => x.id === editingId);
-          if (i >= 0) state.books[i] = { ...state.books[i], title, days, minutes, rating: Math.min(5, rating) };
-          saveAndRender();
-          resetForm();
-          els.listBody.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (editingId){
+        const it = state.items.find(x=>x.id===editingId);
+        if (!it){
+          toast("找不到要编辑的记录");
+          editingId = null;
           return;
         }
+        it.title = title;
+        it.days = days;
+        it.mins = mins;
+        it.stars = starValue;
+        // createdAt 不改（保持原始年份）
+        writeState();
+        renderAll();
+        toast("已保存修改");
+        clearInputs();
+        return;
+      }
 
-        state.books.push({ id: uid(), title, days, minutes, rating: Math.min(5, rating), createdAt: Date.now() });
-        saveAndRender();
-        resetForm();
-        els.listBody.scrollIntoView({ behavior: "smooth", block: "start" });
+      const now = Date.now();
+      state.items.push({
+        id: cryptoRandomId(),
+        title,
+        stars: starValue,
+        days,
+        mins,
+        createdAt: now
+      });
+
+      writeState();
+      renderAll();
+      toast("已添加 ✅");
+      clearInputs();
+    }
+
+    function deleteItem(id){
+      const it = state.items.find(x=>x.id===id);
+      if (!it) return;
+      const ok = confirm(`确定删除这条记录吗？\n\n${it.title}`);
+      if (!ok) return;
+
+      state.items = state.items.filter(x=>x.id!==id);
+      writeState();
+      renderAll();
+      toast("已删除");
+    }
+
+    function startEdit(id){
+      const it = state.items.find(x=>x.id===id);
+      if (!it) return;
+
+      editingId = id;
+      document.getElementById("titleInput").value = it.title;
+      document.getElementById("daysInput").value = it.days || 0;
+      document.getElementById("minsInput").value = it.mins || 0;
+      setStars(it.stars || 0);
+
+      document.getElementById("addBtn").textContent = "保存修改";
+      toast("编辑中：修改后点“保存修改”");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function clearAll(){
+      const ok = confirm("⚠️ 确定清空全部记录吗？\n（强烈建议先备份 JSON）");
+      if (!ok) return;
+
+      state.items = [];
+      writeState();
+      renderAll();
+      toast("已清空全部");
+    }
+
+    /**********************
+     * 5) 备份/恢复（JSON 文件 + 剪贴板）
+     **********************/
+    function backupToJsonFile(){
+      // 导出时用统一结构，方便未来兼容
+      const payload = {
+        _meta: {
+          app: "Yoyi-Reading",
+          version: 1,
+          exportedAt: new Date().toISOString(),
+          activeKey: ACTIVE_KEY,
+          mirrorKey: MIRROR_KEY
+        },
+        data: state
       };
 
-      els.starPicker.addEventListener("click", (e) => {
-        const btn = e.target.closest(".star");
-        if (!btn) return;
-        const v = clampInt(btn.dataset.value);
-        if (state.currentRating === v) setRating(0);
-        else setRating(v);
-      });
+      const text = JSON.stringify(payload, null, 2);
+      const blob = new Blob([text], { type: "application/json" });
 
-      // iOS-friendly triggers
-      els.form.addEventListener("submit", (e) => { e.preventDefault(); addOrSave(); });
-      els.submitBtn.addEventListener("click", (e) => { e.preventDefault(); addOrSave(); }, { passive:false });
-      els.submitBtn.addEventListener("touchend", (e) => { e.preventDefault(); addOrSave(); }, { passive:false });
-      els.submitBtn.addEventListener("pointerup", (e) => { e.preventDefault(); addOrSave(); }, { passive:false });
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth()+1).padStart(2,"0");
+      const dd = String(d.getDate()).padStart(2,"0");
+      const filename = `yoyi-reading-backup-${y}${m}${dd}.json`;
 
-      els.resetBtn.addEventListener("click", resetForm);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
 
-      els.clearAllBtn.addEventListener("click", () => {
-        if (state.books.length === 0) return;
-        if (!confirm("确定清空全部记录吗？清空后无法恢复。")) return;
-        state.books = [];
-        saveAndRender();
-        resetForm();
-      });
+      toast("已下载 JSON 备份");
+    }
 
-      els.listBody.addEventListener("click", (e) => {
-        const btn = e.target.closest("button[data-action]");
-        if (!btn) return;
+    async function restoreFromJsonFile(){
+      const input = document.getElementById("restoreFileInput");
+      input.value = "";
+      input.click();
 
-        const action = btn.dataset.action;
-        const id = btn.dataset.id;
-        const book = state.books.find(x => x.id === id);
-        if (!book) return;
+      input.onchange = async ()=>{
+        const file = input.files && input.files[0];
+        if (!file) return;
 
-        if (action === "edit") {
-          els.title.value = book.title;
-          els.days.value = book.days ? String(book.days) : "";
-          els.minutes.value = book.minutes ? String(book.minutes) : "";
-          els.editingId.value = book.id;
-          els.submitBtn.textContent = "保存修改";
-          setRating(book.rating || 0);
-          setModeText();
-          els.title.focus();
-          return;
+        try{
+          const txt = await file.text();
+          const obj = JSON.parse(txt);
+          const data = obj && obj.data ? obj.data : obj;
+
+          const norm = normalizeToState(data);
+          state = norm;
+
+          // 写回两份（原 key + 镜像）
+          writeState();
+          rebuildYearOptions();
+          renderAll();
+          toast("已从 JSON 恢复 ✅");
+          location.reload(); // 让 UI 全部一致
+        }catch(e){
+          console.warn(e);
+          alert("恢复失败：文件不是有效 JSON 或格式不对。");
         }
+      };
+    }
 
-        if (action === "del") {
-          if (!confirm(`确定删除《${book.title}》吗？`)) return;
-          state.books = state.books.filter(x => x.id !== id);
-          saveAndRender();
-          if (els.editingId.value === id) resetForm();
-        }
+    async function backupToClipboard(){
+      const payload = {
+        _meta: {
+          app: "Yoyi-Reading",
+          version: 1,
+          exportedAt: new Date().toISOString()
+        },
+        data: state
+      };
+      const text = JSON.stringify(payload);
+
+      try{
+        await navigator.clipboard.writeText(text);
+        alert("✅ 已备份到剪贴板。\n请粘贴保存到备忘录 / iCloud Notes / 微信收藏。");
+      }catch(e){
+        // iOS 可能权限问题，退回 prompt
+        try{
+          window.prompt("复制下面内容保存（长按全选复制）", text);
+        }catch(_){}
+      }
+    }
+
+    async function restoreFromClipboard(){
+      let text = "";
+      try{
+        text = await navigator.clipboard.readText();
+      }catch(e){
+        text = window.prompt("请粘贴备份内容（JSON 文本）到这里：", "") || "";
+      }
+      if (!text.trim()){
+        toast("没有内容");
+        return;
+      }
+      try{
+        const obj = JSON.parse(text);
+        const data = obj && obj.data ? obj.data : obj;
+
+        state = normalizeToState(data);
+        writeState();
+        renderAll();
+        toast("已从剪贴板恢复 ✅");
+        location.reload();
+      }catch(e){
+        alert("恢复失败：内容不是有效 JSON。");
+      }
+    }
+
+    /**********************
+     * 6) 事件绑定
+     **********************/
+    // Stars click
+    document.querySelectorAll("#starBar .starBtn").forEach(el=>{
+      el.addEventListener("click", ()=>{
+        const v = Number(el.getAttribute("data-v"));
+        // 再点同一颗星：取消评分（变为 0）
+        if (starValue === v) setStars(0);
+        else setStars(v);
       });
+    });
 
-      // Backup / Restore
-      els.backupBtn.addEventListener("click", async () => {
-        const data = localStorage.getItem(STORAGE_KEY) || "[]";
-        try {
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            await navigator.clipboard.writeText(data);
-            alert("✅ 已备份到剪贴板。\n请粘贴保存到备忘录 / iCloud Notes / 微信收藏。");
-          } else {
-            prompt("请复制下面的备份内容：", data);
-          }
-        } catch {
-          prompt("请复制下面的备份内容：", data);
-        }
-      });
+    document.getElementById("addBtn").addEventListener("click", addOrSave);
+    document.getElementById("clearBtn").addEventListener("click", clearInputs);
+    document.getElementById("clearAllBtn").addEventListener("click", clearAll);
 
-      els.restoreBtn.addEventListener("click", () => {
-        const input = prompt("请粘贴备份内容：");
-        if (!input) return;
-        try {
-          const parsed = JSON.parse(input);
-          if (!Array.isArray(parsed)) throw new Error("bad format");
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
-          state.books = safeLoad();
-          saveAndRender();
-          resetForm();
-          alert("✅ 恢复成功！");
-        } catch {
-          alert("❌ 恢复失败：内容格式不正确。");
-        }
-      });
+    document.getElementById("sortNewBtn").addEventListener("click", ()=>{
+      sortMode = "NEW";
+      renderStatsAndList();
+      toast("已切换：最新在前");
+    });
+    document.getElementById("sortOldBtn").addEventListener("click", ()=>{
+      sortMode = "OLD";
+      renderStatsAndList();
+      toast("已切换：最早在前");
+    });
 
-      setRating(0);
-      setModeText();
-      render();
-    };
+    document.getElementById("yearFilter").addEventListener("change", ()=>{
+      renderStatsAndList();
+    });
 
-    startWhenReady();
-  })();
+    document.getElementById("backupJsonBtn").addEventListener("click", backupToJsonFile);
+    document.getElementById("restoreJsonBtn").addEventListener("click", restoreFromJsonFile);
+    document.getElementById("backupClipBtn").addEventListener("click", backupToClipboard);
+    document.getElementById("restoreClipBtn").addEventListener("click", restoreFromClipboard);
+
+    // Enter to submit
+    document.getElementById("minsInput").addEventListener("keydown", (e)=>{
+      if (e.key === "Enter") addOrSave();
+    });
+
+    // Start
+    init();
   </script>
 </body>
 </html>
