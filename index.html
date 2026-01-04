@@ -281,6 +281,7 @@ white-space: nowrap;
       box-shadow: 0 10px 24px rgba(40,20,90,.12);
       user-select:none;
     }
+
     .btnPrimary{
       background: linear-gradient(135deg, #0f172a, #0b1024);
       color: #fff;
@@ -293,6 +294,22 @@ white-space: nowrap;
       color: var(--ink);
       box-shadow: 0 10px 24px rgba(40,20,90,.08);
     }
+
+/* === 操作区三按钮：强制一行 & 紧凑 === */
+.btnRow {
+  flex-wrap: nowrap;        /* 关键：不允许换行 */
+  gap: 8px;                 /* 间距缩小 */
+}
+
+/* 只影响操作区按钮，不影响别的按钮 */
+.btnRow button {
+  font-size: 13px;          /* 比原来的 15px 小 */
+  padding: 8px 12px;        /* 高度明显变矮 */
+  border-radius: 14px;      /* 圆角收一点 */
+  box-shadow: 0 6px 14px rgba(0,0,0,.08); /* 阴影变轻 */
+  white-space: nowrap;      /* 文本不换行 */
+}
+
     .btnDanger{
       background: linear-gradient(135deg, #ff4d4f, #ff7a7c);
       color:#fff;
@@ -304,6 +321,21 @@ white-space: nowrap;
       font-size: 12px;
       box-shadow: 0 10px 24px rgba(40,20,90,.10);
     }
+
+.backupGrid{
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 12px;
+}
+
+.backupGrid .btnMini{
+  width: 100%;
+  font-size: 12px;
+  padding: 9px 10px;
+  border-radius: 14px;
+  white-space: nowrap;
+}
 
     /* List */
     .listHead{
@@ -629,12 +661,13 @@ input[type="text"], input[type="number"]{
           <div class="smallLine muted" id="emptyTip" style="display:none; margin-top:10px;">
             还没有记录。先添加一本到列表吧 🙂
           </div>
-            <div class="btnRow" style="justify-content:flex-end">
-              button class="btnGhost btnMini" id="backupJsonBtn">🗂️ 备份(JSON)</button>
-              <button class="btnGhost btnMini" id="restoreJsonBtn">📥 恢复(JSON)</button>
-              <button class="btnGhost btnMini" id="backupClipBtn">📋 备份(剪贴板)</button>
-              <button class="btnGhost btnMini" id="restoreClipBtn">📋 恢复(剪贴板)</button>
-            </div>
+
+<div class="backupGrid">
+  <button class="btnGhost btnMini" id="backupJsonBtn">🗂️ 备份(JSON)</button>
+  <button class="btnGhost btnMini" id="restoreJsonBtn">📥 恢复(JSON)</button>
+  <button class="btnGhost btnMini" id="backupClipBtn">📋 备份(剪贴板)</button>
+  <button class="btnGhost btnMini" id="restoreClipBtn">📋 恢复(剪贴板)</button>
+</div>
 
         </div>
       </div>
@@ -1216,6 +1249,54 @@ input[type="text"], input[type="number"]{
 
     // Start
     init();
+
+<script>
+(function () {
+  function bindOnce(id, fn) {
+    const el = document.getElementById(id);
+    if (!el) { console.log("Missing:", id); return; }
+    el.onclick = fn; // 用 onclick 覆盖式绑定，最稳
+  }
+
+  // 先给一个最简单的“有反应”提示，确保点得到
+  bindOnce("backupJsonBtn", function () {
+    try {
+      if (typeof backupJSON === "function") return backupJSON();
+      if (typeof backupJson === "function") return backupJson();
+      alert("✅ 点击成功，但没找到 backupJSON/backupJson 函数。请把你 <script> 那段发我。");
+    } catch (e) { alert("❌ 备份JSON报错: " + e.message); }
+  });
+
+  bindOnce("restoreJsonBtn", function () {
+    try {
+      // 常见做法：点它触发隐藏的 file input
+      const fi = document.getElementById("restoreFileInput");
+      if (fi) return fi.click();
+
+      if (typeof restoreJSON === "function") return restoreJSON();
+      if (typeof restoreJson === "function") return restoreJson();
+      alert("✅ 点击成功，但没找到 restoreFileInput 或 restoreJSON/restoreJson。请把你 <script> 那段发我。");
+    } catch (e) { alert("❌ 恢复JSON报错: " + e.message); }
+  });
+
+  bindOnce("backupClipBtn", function () {
+    try {
+      if (typeof backupClipboard === "function") return backupClipboard();
+      if (typeof backupToClipboard === "function") return backupToClipboard();
+      alert("✅ 点击成功，但没找到 backupClipboard/backupToClipboard。请把你 <script> 那段发我。");
+    } catch (e) { alert("❌ 备份剪贴板报错: " + e.message); }
+  });
+
+  bindOnce("restoreClipBtn", function () {
+    try {
+      if (typeof restoreClipboard === "function") return restoreClipboard();
+      if (typeof restoreFromClipboard === "function") return restoreFromClipboard();
+      alert("✅ 点击成功，但没找到 restoreClipboard/restoreFromClipboard。请把你 <script> 那段发我。");
+    } catch (e) { alert("❌ 恢复剪贴板报错: " + e.message); }
+  });
+})();
+</script>
+
   </script>
 </body>
 </html>
