@@ -743,6 +743,26 @@ html, body{ overflow-x: hidden; }
   }
 }
 
+
+  /* ===== 记录列表：书名与喜爱度留白 + 星星稍小（手机端优先） ===== */
+  .recordsTable th:nth-child(3),
+  .recordsTable td:nth-child(3){
+    padding-left: 14px;      /* 让喜爱度不要贴着书名 */
+    white-space: nowrap;     /* 星星不换行 */
+    font-size: 18px;         /* 星星稍微小一点 */
+    text-align: left;
+  }
+  .recordsTable th:nth-child(4),
+  .recordsTable td:nth-child(4),
+  .recordsTable th:nth-child(5),
+  .recordsTable td:nth-child(5){
+    text-align: center;      /* 天数/分钟居中更紧凑 */
+  }
+  .recordsTable th:nth-child(6),
+  .recordsTable td:nth-child(6){
+    text-align: center;      /* 操作列更紧凑 */
+  }
+
 </style>
 </head>
 
@@ -858,11 +878,11 @@ html, body{ overflow-x: hidden; }
             <table class="recordsTable">
               <colgroup>
                 <col style="width:8%">
-                <col style="width:44%">
+                <col style="width:52%">
                 <col style="width:14%">
+                <col style="width:8%">
+                <col style="width:8%">
                 <col style="width:10%">
-                <col style="width:12%">
-                <col style="width:12%">
               </colgroup>
               <thead>
                 <tr>
