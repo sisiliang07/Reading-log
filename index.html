@@ -350,23 +350,7 @@ button{
 .btnMini{
   font-size: 13px;
 }
-
-    /* Backup grid (2x2) - 防止按钮把页面撑出横向滚动 */
-    .backupGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .backupGrid button{
-      width:100%;
-      padding: 9px 8px;
-      font-size: 13px;
-      font-weight: 500;
-      border-radius: 14px;
-    }
-
-    /* List */
+/* List */
     .listHead{
       display:flex;
       align-items:center;
@@ -614,7 +598,39 @@ input[type="text"], input[type="number"]{
   font-weight: 400;
 }
 
-  </style>
+  
+/* ===== 防止 iPhone 横向“出界”/左右滑动（强力版，不改变视觉） ===== */
+html, body{
+  width:100%;
+  max-width:100vw;
+  overflow-x: clip;
+}
+@supports not (overflow: clip){
+  html, body{ overflow-x:hidden; }
+}
+/* Grid/Flex 子项允许收缩，避免被长文本撑出 */
+.grid > *, .top > *, .sectionTitle > *, .listHead > *{
+  min-width: 0;
+}
+/* 长字符串（例如存储key）自动换行，避免撑出横向 */
+.debugLine, .smallLine, .subtitle, .chip, .listHint{
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+/* 备份按钮区域：两列网格，且不允许撑出 */
+.backupGrid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+.backupGrid button{
+  width:100%;
+  min-width:0;
+  white-space: nowrap;
+}
+
+</style>
 </head>
 
 <body>
