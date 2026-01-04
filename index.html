@@ -629,37 +629,8 @@ html, body{
   min-width:0;
   white-space: nowrap;
 }
-/* ===== 手机端：记录列表更紧凑（不需要左右滑动）===== */
-@media (max-width: 520px){
-  /* 外层留白略收紧 */
-  .wrap{ padding-left: 12px !important; padding-right: 12px !important; }
 
-  /* 只收紧“记录列表”这张卡的左右内边距 */
-  #listCard{ padding-left: 10px !important; padding-right: 10px !important; }
-
-  /* 表格用固定布局，让“书名”列自动换行而不是撑宽 */
-  #listCard table{ table-layout: fixed; }
-
-  /* 单元格更紧凑 */
-  #listCard thead th{ padding: 10px 8px !important; font-size: 12px !important; }
-  #listCard tbody td{ padding: 10px 8px !important; font-size: 13px !important; }
-
-  /* 列宽微调：给书名留更多空间 */
-  #listCard th:nth-child(1), #listCard td:nth-child(1){ width: 44px !important; }
-  #listCard th:nth-child(3), #listCard td:nth-child(3){ width: 56px !important; }
-  #listCard th:nth-child(4), #listCard td:nth-child(4){ width: 64px !important; }
-  #listCard th:nth-child(5), #listCard td:nth-child(5){ width: 70px !important; }
-  #listCard th:nth-child(6), #listCard td:nth-child(6){ width: 118px !important; }
-
-  /* 书名允许换行（避免把表格撑出屏幕） */
-  #listCard td:nth-child(2) div{ white-space: normal !important; overflow-wrap: anywhere !important; word-break: break-word !important; }
-
-  /* 操作按钮略收紧 */
-  #listCard .ops{ gap: 6px !important; }
-  #listCard .ops button{ padding: 8px 10px !important; }
-}
-
-  </style>
+</style>
 </head>
 
 <body>
@@ -752,7 +723,7 @@ html, body{
         </div>
 
         <!-- Right: List -->
-        <div class="card" id="listCard">
+        <div class="card">
           <div class="sectionTitle">
             <h2>🗂️ 记录列表</h2>
             <div class="rightTools">
