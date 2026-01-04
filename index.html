@@ -597,25 +597,6 @@ input[type="text"], input[type="number"]{
   font-weight: 400;
 }
 
-/* 备份/恢复按钮：小一点、边框浅一点 */
-.btnRow { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
-.btnMini { padding:8px 10px; font-size:13px; border-radius:999px; font-weight:600; }
-
-.btnGhost{
-  background: rgba(255,255,255,.72);
-  border: 1px solid rgba(0,0,0,.08);
-  color: #111827;
-  box-shadow: 0 8px 18px rgba(20,30,60,.10);
-}
-
-/* iOS Safari 有时会把按钮文字变“系统蓝色”，强制回到正常颜色 */
-button.btnGhost, button.btnGhost *{
-  color:#111827 !important;
-  -webkit-text-fill-color:#111827 !important;
-  -webkit-appearance:none;
-  appearance:none;
-}
-
   </style>
 </head>
 
@@ -679,11 +660,11 @@ button.btnGhost, button.btnGhost *{
               </div>
             </div>
 
-       <div class="btnRow actionRow">
-  <button type="button" class="btnPrimary" id="addBtn">添加到列表</button>
-  <button type="button" class="btnGhost" id="clearBtn">清空输入</button>
-  <button type="button" class="btnDanger" id="clearAllBtn">清空全部</button>
-</div>
+            <div class="btnRow actionRow">
+              <button class="btnPrimary" id="addBtn">添加到列表</button>
+              <button class="btnGhost" id="clearBtn">清空输入</button>
+              <button class="btnDanger" id="clearAllBtn">清空全部</button>
+            </div>
 
             <div class="stats" id="statsGrid">
               <div class="stat">
@@ -1306,16 +1287,10 @@ button.btnGhost, button.btnGhost *{
     document.getElementById("addBtn").addEventListener("click", addOrSave);
     document.getElementById("clearBtn").addEventListener("click", clearInputs);
     document.getElementById("clearAllBtn").addEventListener("click", clearAll);
-
-    document.getElementById("sortNewBtn").addEventListener("click", ()=>{
-      sortMode = "NEW";
+    document.getElementById("sortSelect").addEventListener("change", (e)=>{
+      const v = e.target.value;
+      sortMode = (v === "old") ? "OLD" : "NEW";
       renderStatsAndList();
-      toast("已切换：最新在前");
-    });
-    document.getElementById("sortOldBtn").addEventListener("click", ()=>{
-      sortMode = "OLD";
-      renderStatsAndList();
-      toast("已切换：最早在前");
     });
 
     document.getElementById("yearFilter").addEventListener("change", ()=>{
@@ -1334,165 +1309,6 @@ button.btnGhost, button.btnGhost *{
 
     // Start
     init();
-
-<script>
-
-/************* 备份/恢复（最终版） *************/
-
-// 1) 统一数据 key（优先用你现有的 ACTIVE_KEY）
-const RECORDS_KEY = (typeof ACTIVE_KEY !== "undefined") ? ACTIVE_KEY : "yoyi_reading_records_v1";
-
-// 2) 读取/写入 records（按你的数据结构存一个数组）
-function getRecords() {
-  try {
-    const raw = localStorage.getItem(RECORDS_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch (e) {
-    console.error(e);
-    return [];
-  }
-}
-function setRecords(arr) {
-  localStorage.setItem(RECORDS_KEY, JSON.stringify(arr));
-}
-
-// 3) 备份 JSON：下载文件（iOS/Safari 也可用）
-function backupToJsonFile() {
-  const payload = {
-    version: 1,
-    key: RECORDS_KEY,
-    exportedAt: new Date().toISOString(),
-    records: getRecords()
-  };
-
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  const ts = new Date().toISOString().slice(0,19).replace(/[:T]/g, "-");
-  a.href = url;
-  a.download = `Yoyi-Reading-backup-${ts}.json`;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
-
-// 4) 恢复 JSON：选择文件 -> 读取 -> 写入 localStorage -> 刷新 UI
-function restoreFromJsonFile(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onerror = () => reject(new Error("读取文件失败"));
-    reader.onload = () => {
-      try {
-        const obj = JSON.parse(String(reader.result || ""));
-        const recs = Array.isArray(obj) ? obj : (obj.records || obj.data || []);
-        if (!Array.isArray(recs)) throw new Error("JSON 格式不对：找不到 records 数组");
-
-        setRecords(recs);
-
-        // 这里调用你已有的刷新函数
-        if (typeof render === "function") render();
-        if (typeof updateYearFilter === "function") updateYearFilter(recs);
-
-        resolve(recs.length);
-      } catch (e) {
-        reject(e);
-      }
-    };
-    reader.readAsText(file, "utf-8");
-  });
-}
-
-// 5) 备份到剪贴板：优先 navigator.clipboard；不支持就弹窗复制
-async function backupToClipboard() {
-  const payload = JSON.stringify({
-    version: 1,
-    key: RECORDS_KEY,
-    exportedAt: new Date().toISOString(),
-    records: getRecords()
-  });
-
-  try {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(payload);
-      alert("✅ 已复制到剪贴板");
-      return;
-    }
-    // fallback：提示框手动复制
-    window.prompt("你的浏览器不支持自动写入剪贴板（或不是 https）。请长按复制：", payload);
-  } catch (e) {
-    window.prompt("复制失败，请长按复制：", payload);
-  }
-}
-
-// 6) 从剪贴板恢复：优先读剪贴板；不行就让你粘贴
-async function restoreFromClipboard() {
-  let text = "";
-  try {
-    if (navigator.clipboard && window.isSecureContext) {
-      text = await navigator.clipboard.readText();
-    }
-  } catch (_) {}
-
-  if (!text) {
-    text = window.prompt("请粘贴备份 JSON：", "");
-    if (!text) return;
-  }
-
-  try {
-    const obj = JSON.parse(text);
-    const recs = Array.isArray(obj) ? obj : (obj.records || obj.data || []);
-    if (!Array.isArray(recs)) throw new Error("内容里找不到 records 数组");
-
-    setRecords(recs);
-
-    if (typeof render === "function") render();
-    if (typeof updateYearFilter === "function") updateYearFilter(recs);
-
-    alert(`✅ 已恢复：${recs.length} 条记录`);
-  } catch (e) {
-    alert("❌ 恢复失败： " + (e.message || e));
-  }
-}
-
-// 7) 绑定按钮（确保真的绑定上）
-(function bindBackupButtons(){
-  const $ = (id) => document.getElementById(id);
-
-  const backupJsonBtn = $("backupJsonBtn");
-  const restoreJsonBtn = $("restoreJsonBtn");
-  const backupClipBtn = $("backupClipBtn");
-  const restoreClipBtn = $("restoreClipBtn");
-  const restoreFileInput = $("restoreFileInput");
-
-  if (!backupJsonBtn || !restoreJsonBtn || !backupClipBtn || !restoreClipBtn || !restoreFileInput) {
-    console.warn("备份/恢复按钮或 restoreFileInput 没找到：请确认 HTML 已粘贴在页面里");
-    return;
-  }
-
-  backupJsonBtn.addEventListener("click", backupToJsonFile);
-
-  restoreJsonBtn.addEventListener("click", () => {
-    restoreFileInput.value = "";
-    restoreFileInput.click();
-  });
-
-  restoreFileInput.addEventListener("change", async () => {
-    const file = restoreFileInput.files && restoreFileInput.files[0];
-    if (!file) return;
-    try {
-      const n = await restoreFromJsonFile(file);
-      alert(`✅ 已恢复：${n} 条记录`);
-    } catch (e) {
-      alert("❌ 恢复失败： " + (e.message || e));
-    }
-  });
-
-  backupClipBtn.addEventListener("click", backupToClipboard);
-  restoreClipBtn.addEventListener("click", restoreFromClipboard);
-})();
 
   </script>
 </body>
