@@ -298,10 +298,10 @@ white-space: nowrap;
       color:#fff;
     }
     .btnMini{
-      padding: 10px 12px;
+      padding: 6px 10px;
       border-radius: 14px;
       font-weight: 800;
-      font-size: 14px;
+      font-size: 12px;
       box-shadow: 0 10px 24px rgba(40,20,90,.10);
     }
 
@@ -466,6 +466,39 @@ input[type="text"], input[type="number"]{
   box-sizing: border-box !important;
 }
 
+/* ① 操作按钮：三颗同排（移动端） */
+.actionRow{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:nowrap;      /* 强制同一行 */
+}
+.actionRow .btn{
+  flex:1 1 0;            /* 三个平均分配 */
+  min-width:0;
+  white-space:nowrap;
+  font-size:14px;
+  padding:12px 10px;
+  border-radius:16px;
+}
+
+/* 更窄屏再小一点 */
+@media (max-width: 420px){
+  .actionRow{ gap:8px; }
+  .actionRow .btn{
+    font-size:13px;
+    padding:11px 8px;
+    border-radius:15px;
+  }
+}
+.sortSelect{
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,.08);
+  background: rgba(255,255,255,.85);
+}
+
   </style>
 </head>
 
@@ -529,7 +562,7 @@ input[type="text"], input[type="number"]{
               </div>
             </div>
 
-            <div class="btnRow">
+            <div class="btnRow actionRow">
               <button class="btnPrimary" id="addBtn">添加到列表</button>
               <button class="btnGhost" id="clearBtn">清空输入</button>
               <button class="btnDanger" id="clearAllBtn">清空全部</button>
@@ -574,13 +607,15 @@ input[type="text"], input[type="number"]{
             </div>
           </div>
 
-          <div class="listHead">
-            <div class="listHint" id="listMeta"></div>
-            <div class="ops">
-              <button class="btnGhost btnMini" id="sortNewBtn">最新在前</button>
-              <button class="btnGhost btnMini" id="sortOldBtn">最早在前</button>
-            </div>
-          </div>
+     <div class="listHead">
+  <div class="listHint" id="listMeta"></div>
+  <div class="ops">
+    <select id="sortSelect" class="sortSelect">
+      <option value="new">最新在前</option>
+      <option value="old">最早在前</option>
+    </select>
+  </div>
+</div>
 
           <div style="overflow:auto; border-radius:16px;">
             <table>
