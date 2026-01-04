@@ -664,7 +664,56 @@ html, body{
   #listCard .ops button{ padding: 8px 10px !important; font-size: 12px !important; }
 }
 
-  </style>
+  
+    /* ===== v9 手机端：列表不重叠 + 边距收紧（只影响记录列表） ===== */
+    html, body{ overflow-x: hidden; }
+    @media (max-width: 520px){
+      /* 整页左右收紧（更接近你原来的边距） */
+      html, body{ overflow-x: clip; }
+      .wrap{ padding-left: 8px; padding-right: 8px; }
+      #listCard{ padding-left: 8px; padding-right: 8px; }
+
+      /* 表格固定布局 + 明确列宽：防止⭐和天数/分钟重叠 */
+      #listCard table.recordsTable{ table-layout: fixed; width: 100%; }
+      #listCard table.recordsTable col:nth-child(1){ width: 36px; }   /* # */
+      #listCard table.recordsTable col:nth-child(3){ width: 112px; }  /* ⭐ */
+      #listCard table.recordsTable col:nth-child(4){ width: 56px; }   /* 天数 */
+      #listCard table.recordsTable col:nth-child(5){ width: 64px; }   /* 分钟 */
+      #listCard table.recordsTable col:nth-child(6){ width: 86px; }   /* 操作 */
+      /* 书名列(第2列)自动占剩余空间 */
+
+      /* 书名：允许换行，但不要竖排 */
+      #listCard td:nth-child(2), #listCard th:nth-child(2){
+        word-break: break-word;
+        overflow-wrap: anywhere;
+      }
+
+      /* ⭐列：靠左 + 允许换行到两行（避免溢出压到后面列） */
+      #listCard td:nth-child(3), #listCard th:nth-child(3){ text-align: left; }
+      #listCard td:nth-child(3){
+        white-space: normal;
+        overflow: hidden;
+      }
+      #listCard td:nth-child(3)::before{ content: ""; }
+      #listCard td:nth-child(3){
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2px;
+        align-items: center;
+        line-height: 1.1;
+      }
+
+      /* 数字列/操作列：不换行 */
+      #listCard td:nth-child(4), #listCard th:nth-child(4),
+      #listCard td:nth-child(5), #listCard th:nth-child(5),
+      #listCard td:nth-child(6), #listCard th:nth-child(6){
+        white-space: nowrap;
+      }
+
+      #listCard .ops{ justify-content: flex-end; }
+      #listCard .ops button{ min-width: 52px; }
+    }
+</style>
 </head>
 
 <body>
@@ -757,7 +806,7 @@ html, body{
         </div>
 
         <!-- Right: List -->
-        <div class="card" id="listCard">
+        <div class="card" id="listCard" id="listCard">
           <div class="sectionTitle">
             <h2>🗂️ 记录列表</h2>
             <div class="rightTools">
@@ -776,7 +825,15 @@ html, body{
 </div>
 
           <div style="overflow:auto; border-radius:16px;">
-            <table>
+            <table class="recordsTable">
+              <colgroup>
+                <col style="width:8%">
+                <col style="width:44%">
+                <col style="width:14%">
+                <col style="width:10%">
+                <col style="width:12%">
+                <col style="width:12%">
+              </colgroup>
               <thead>
                 <tr>
                   <th style="width:70px;">#</th>
