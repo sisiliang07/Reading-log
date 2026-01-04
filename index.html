@@ -265,76 +265,88 @@ white-space: nowrap;
     .starNote{ color: var(--muted); font-size: 13px; margin-left: 6px; }
 
     /* Buttons */
-    .btnRow{
-      display:flex;
-      gap: 10px;
-      flex-wrap:wrap;
-      margin-top: 12px;
-    }
-    button{
-      border: none;
-      border-radius: 16px;
-      padding: 12px 14px;
-      font-size: 15px;
-      font-weight: 800;
-      cursor:pointer;
-      box-shadow: 0 10px 24px rgba(40,20,90,.12);
-      user-select:none;
-    }
 
-    .btnPrimary{
-      background: linear-gradient(135deg, #0f172a, #0b1024);
-      color: #fff;
-      padding-left: 18px;
-      padding-right: 18px;
-    }
-    .btnGhost{
-      background: rgba(255,255,255,.7);
-      border: 1px solid rgba(255,255,255,.85);
-      color: var(--ink);
-      box-shadow: 0 10px 24px rgba(40,20,90,.08);
-    }
+/* =========================
+   Buttons – 最终稳定版
+   ========================= */
 
-/* === 操作区三按钮：强制一行 & 紧凑 === */
-.btnRow {
-  flex-wrap: nowrap;        /* 关键：不允许换行 */
-  gap: 8px;                 /* 间距缩小 */
+/* 所有按钮：彻底去 iOS 蓝字 */
+button{
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: #111827;
+  -webkit-text-fill-color: #111827;
 }
 
-/* 只影响操作区按钮，不影响别的按钮 */
-.btnRow button {
-  font-size: 13px;          /* 比原来的 15px 小 */
-  padding: 8px 12px;        /* 高度明显变矮 */
-  border-radius: 14px;      /* 圆角收一点 */
-  box-shadow: 0 6px 14px rgba(0,0,0,.08); /* 阴影变轻 */
-  white-space: nowrap;      /* 文本不换行 */
+/* 按钮行（基础） */
+.btnRow{
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
 }
 
-    .btnDanger{
-      background: linear-gradient(135deg, #ff4d4f, #ff7a7c);
-      color:#fff;
-    }
-    .btnMini{
-      padding: 6px 10px;
-      border-radius: 14px;
-      font-weight: 800;
-      font-size: 12px;
-      box-shadow: 0 10px 24px rgba(40,20,90,.10);
-    }
-
-.backupGrid{
-  margin-top: 14px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px 12px;
+/* ===== 上方三按钮：强制一行 ===== */
+.actionRow{
+  flex-wrap: nowrap;
+}
+/* 上方三按钮：更轻、更薄 */
+.actionRow button{
+  flex: 1 1 0;
+  padding: 9px 8px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 500;              /* ← 关键：不粗 */
+  letter-spacing: .2px;
+  box-shadow: 0 8px 18px rgba(17,24,39,.08);
 }
 
-.backupGrid .btnMini{
-  width: 100%;
-  font-size: 12px;
-  padding: 9px 10px;
+/* ===== 主按钮 ===== */
+
+/* 添加到列表：深灰而不是纯黑 */
+.btnPrimary{
+  background: rgba(17,24,39,.90);
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+}
+
+/* ===== Ghost 按钮 ===== */
+.btnGhost{
+  background: rgba(255,255,255,.7);
+  border: 1px solid rgba(255,255,255,.85);
+  color: #111827;
+  -webkit-text-fill-color: #111827;
+}
+
+/* ===== 危险按钮 ===== */
+
+/* 清空全部：柔和红 */
+.btnDanger{
+  background: linear-gradient(135deg, #ff6b6b, #ff8b8b);
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+}
+
+/* ===== 备份区：两行四个，小尺寸 ===== */
+.backupRow{
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.backupRow button{
+  flex: 0 0 calc(50% - 8px);
+  padding: 9px 8px;
+  font-size: 13px;
+  font-weight: 500;
   border-radius: 14px;
-  white-space: nowrap;
+}
+
+/* ===== mini 按钮额外收紧 ===== */
+.btnMini{
+  font-size: 13px;
 }
 
     /* List */
@@ -529,6 +541,60 @@ input[type="text"], input[type="number"]{
   border-radius: 999px;
   border: 1px solid rgba(0,0,0,.08);
   background: rgba(255,255,255,.85);
+}
+
+/* ===== 操作区三按钮：最终版（按 class 命中，不靠 id）===== */
+
+/* 只影响“添加到列表/清空输入/清空全部”这一行按钮 */
+.actionRow button{
+  font-weight: 500 !important;          /* 变细：不再粗黑 */
+  font-size: 14px !important;
+  box-shadow: 0 6px 14px rgba(17,24,39,.08) !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  text-decoration: none !important;
+}
+
+/* === 添加 / 清空 / 清空全部：最终视觉版 === */
+.btnRow.actionRow > button{
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  color: #374151 !important;
+  -webkit-text-fill-color: #374151 !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,.08) !important;
+}
+
+.btnRow.actionRow .btnPrimary{
+  background: linear-gradient(135deg, #1f2937, #111827);
+  color: #f9fafb !important;
+  font-weight: 400 !important;
+}
+
+.btnRow.actionRow .btnGhost{
+  background: rgba(255,255,255,.85);
+  border: 1px solid rgba(0,0,0,.06);
+}
+
+.btnRow.actionRow .btnDanger{
+  background: linear-gradient(135deg, #fb7185, #f87171);
+  color: #fff !important;
+  font-weight: 400 !important;
+}
+
+/* 主按钮：添加到列表（白字） */
+.btnRow.actionRow .btnPrimary{
+  background: linear-gradient(135deg, #1f2937, #111827);
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 400;
+}
+
+/* 危险按钮：清空全部（白字） */
+.btnRow.actionRow .btnDanger{
+  background: linear-gradient(135deg, #fb7185, #f87171);
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 400;
 }
 
   </style>
@@ -1251,51 +1317,135 @@ input[type="text"], input[type="number"]{
     init();
 
 <script>
-(function () {
-  function bindOnce(id, fn) {
-    const el = document.getElementById(id);
-    if (!el) { console.log("Missing:", id); return; }
-    el.onclick = fn; // 用 onclick 覆盖式绑定，最稳
+
+// ===== Backup / Restore (JSON + Clipboard) =====
+const STORAGE_KEY = "yoyi_reading_log_v1"; // 如果你原来用别的key，就改成一致的
+
+function getAllRecords() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  } catch (e) {
+    return [];
+  }
+}
+
+function setAllRecords(arr) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(arr || []));
+  // 如果你有 render / refresh 函数，放在这里调用
+  if (typeof renderList === "function") renderList();
+  if (typeof updateStats === "function") updateStats();
+  if (typeof refreshUI === "function") refreshUI();
+}
+
+function exportToJsonFile() {
+  const data = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    records: getAllRecords()
+  };
+
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `Yoyi-Reading-${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+async function copyJsonToClipboard() {
+  const data = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    records: getAllRecords()
+  };
+  const text = JSON.stringify(data);
+
+  try {
+    await navigator.clipboard.writeText(text);
+    if (typeof toast === "function") toast("✅ 已复制 JSON 到剪贴板");
+    else alert("✅ 已复制 JSON 到剪贴板");
+  } catch (e) {
+    // iOS/权限限制常见：给一个手动复制方案
+    const ok = prompt("iOS 可能禁止自动读写剪贴板。已为你生成JSON，请长按全选复制：", text);
+  }
+}
+
+function restoreFromJsonObject(obj) {
+  if (!obj) throw new Error("Empty JSON");
+
+  // 兼容两种格式：直接是数组，或 {records:[]}
+  const records = Array.isArray(obj) ? obj : (obj.records || []);
+  if (!Array.isArray(records)) throw new Error("Invalid format: records must be an array");
+
+  setAllRecords(records);
+  if (typeof toast === "function") toast("✅ 已恢复 JSON 数据");
+  else alert("✅ 已恢复 JSON 数据");
+}
+
+function bindBackupButtons() {
+  const backupJsonBtn = document.getElementById("backupJsonBtn");
+  const restoreJsonBtn = document.getElementById("restoreJsonBtn");
+  const backupClipBtn  = document.getElementById("backupClipBtn");
+  const restoreClipBtn = document.getElementById("restoreClipBtn");
+  const restoreFileInput = document.getElementById("restoreFileInput");
+
+  if (backupJsonBtn) backupJsonBtn.addEventListener("click", exportToJsonFile);
+
+  if (backupClipBtn) backupClipBtn.addEventListener("click", () => {
+    copyJsonToClipboard();
+  });
+
+  if (restoreJsonBtn && restoreFileInput) {
+    restoreJsonBtn.addEventListener("click", () => restoreFileInput.click());
+
+    restoreFileInput.addEventListener("change", async (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const text = await file.text();
+      try {
+        const obj = JSON.parse(text);
+        restoreFromJsonObject(obj);
+      } catch (err) {
+        alert("❌ JSON 解析失败：请确认文件正确");
+      } finally {
+        // 允许重复选择同一文件
+        restoreFileInput.value = "";
+      }
+    });
   }
 
-  // 先给一个最简单的“有反应”提示，确保点得到
-  bindOnce("backupJsonBtn", function () {
-    try {
-      if (typeof backupJSON === "function") return backupJSON();
-      if (typeof backupJson === "function") return backupJson();
-      alert("✅ 点击成功，但没找到 backupJSON/backupJson 函数。请把你 <script> 那段发我。");
-    } catch (e) { alert("❌ 备份JSON报错: " + e.message); }
-  });
+  if (restoreClipBtn) {
+    restoreClipBtn.addEventListener("click", async () => {
+      // iOS 很可能不允许 readText，所以做双方案：先尝试读取，失败就弹窗让你粘贴
+      try {
+        const text = await navigator.clipboard.readText();
+        const obj = JSON.parse(text);
+        restoreFromJsonObject(obj);
+      } catch (e) {
+        const pasted = prompt("请把备份的 JSON 粘贴到这里：");
+        if (!pasted) return;
+        try {
+          const obj = JSON.parse(pasted);
+          restoreFromJsonObject(obj);
+        } catch (err) {
+          alert("❌ 粘贴内容不是有效 JSON");
+        }
+      }
+    });
+  }
+}
 
-  bindOnce("restoreJsonBtn", function () {
-    try {
-      // 常见做法：点它触发隐藏的 file input
-      const fi = document.getElementById("restoreFileInput");
-      if (fi) return fi.click();
-
-      if (typeof restoreJSON === "function") return restoreJSON();
-      if (typeof restoreJson === "function") return restoreJson();
-      alert("✅ 点击成功，但没找到 restoreFileInput 或 restoreJSON/restoreJson。请把你 <script> 那段发我。");
-    } catch (e) { alert("❌ 恢复JSON报错: " + e.message); }
-  });
-
-  bindOnce("backupClipBtn", function () {
-    try {
-      if (typeof backupClipboard === "function") return backupClipboard();
-      if (typeof backupToClipboard === "function") return backupToClipboard();
-      alert("✅ 点击成功，但没找到 backupClipboard/backupToClipboard。请把你 <script> 那段发我。");
-    } catch (e) { alert("❌ 备份剪贴板报错: " + e.message); }
-  });
-
-  bindOnce("restoreClipBtn", function () {
-    try {
-      if (typeof restoreClipboard === "function") return restoreClipboard();
-      if (typeof restoreFromClipboard === "function") return restoreFromClipboard();
-      alert("✅ 点击成功，但没找到 restoreClipboard/restoreFromClipboard。请把你 <script> 那段发我。");
-    } catch (e) { alert("❌ 恢复剪贴板报错: " + e.message); }
-  });
-})();
-</script>
+// 页面加载后绑定
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", bindBackupButtons);
+} else {
+  bindBackupButtons();
+}
 
   </script>
 </body>
