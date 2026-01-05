@@ -676,6 +676,21 @@ input[type="text"], input[type="number"]{
     padding: 4px 6px !important;
     line-height: 1.1 !important;
   }
+    /* v28 tweaks: more space for title + full 5 stars */
+    .tableWrap{ padding: 0 6px !important; }
+    th, td{ padding: 10px 4px !important; }
+    th:nth-child(1), td:nth-child(1){ width: 26px !important; }
+    th:nth-child(3), td:nth-child(3){ width: 96px !important; }
+    th:nth-child(4), td:nth-child(4){ width: 40px !important; }
+    th:nth-child(5), td:nth-child(5){ width: 40px !important; }
+    th:nth-child(6), td:nth-child(6){ width: 56px !important; }
+    /* title: slightly smaller, don’t break inside a word */
+    td:nth-child(2) div:first-child{ font-size: 14px !important; line-height: 1.15 !important; word-break: normal !important; overflow-wrap: normal !important; hyphens: auto; }
+    /* stars: smaller + allow overflow so 5th star won’t be clipped */
+    td:nth-child(3){ font-size: 16px !important; white-space: nowrap !important; overflow: visible !important; }
+    /* headers: match the gray style */
+    th{ color: var(--muted) !important; font-weight: 600 !important; }
+    th:nth-child(4), th:nth-child(5), th:nth-child(6){ color: var(--muted) !important; }
 }
 
 </style>
