@@ -791,6 +791,21 @@ table tbody td:nth-child(3){
   overflow: visible !important;
 }
 
+
+/* ===== Stat minutes formatting ===== */
+.stat .v .mainNum{
+  display:block;
+  white-space:nowrap;           /* keep digits on one line */
+}
+.stat .v .subHM{
+  display:block;
+  margin-top: 2px;
+  font-size: 0.55em;            /* smaller */
+  color: rgba(0,0,0,0.45);      /* gray */
+  font-weight: 600;
+  white-space:nowrap;           /* keep (13h 0m) on one line */
+}
+
 </style>
 </head>
 
@@ -1107,7 +1122,8 @@ table tbody td:nth-child(3){
     function formatHM(totalMins){
       const h = Math.floor(totalMins / 60);
       const m = totalMins % 60;
-      return `${totalMins} (${h}h ${m}m)`;
+      // main number on one line; converted time on a smaller gray line
+      return `<span class="mainNum">${totalMins}</span><span class="subHM">(${h}h ${m}m)</span>`;
     }
 
     function getYearFromItem(it){
@@ -1193,7 +1209,7 @@ function renderStatsAndList(){
 
       document.getElementById("statBooks").textContent = totalBooks;
       document.getElementById("statDays").textContent  = totalDays;
-      document.getElementById("statMins").textContent  = formatHM(totalMins);
+      document.getElementById("statMins").innerHTML   = formatHM(totalMins);
 
       const sel = document.getElementById("yearFilter").value;
       const meta = sel === "ALL"
