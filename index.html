@@ -385,6 +385,14 @@ button{
       vertical-align: middle;
     }
     tbody tr:last-child td{ border-bottom:none; }
+
+    /* 粉色星星（列表） */
+    .col-stars{ white-space:nowrap; min-width:96px; padding-right:10px; }
+    .rating{ display:inline-flex; gap:3px; line-height:1; vertical-align:middle; }
+    .rating .star{ font-size:16px; }
+    .rating .filled{ color:#ff4fa0; }
+    .rating .empty{ color:rgba(255,79,160,.45); }
+
     .ops{
       display:flex;
       gap:8px;
@@ -1056,7 +1064,21 @@ input[type="text"], input[type="number"]{
       renderStatsAndList();
     }
 
-    function renderStatsAndList(){
+    
+    function starsHtml(v){
+      const n = clamp(Number(v)||0, 0, 5);
+      if (!n) return "—";
+      let html = '<span class="rating" aria-label="'+n+'星">';
+      for (let i=1;i<=5;i++){
+        html += i<=n
+          ? '<span class="star filled">★</span>'
+          : '<span class="star empty">☆</span>';
+      }
+      html += '</span>';
+      return html;
+    }
+
+function renderStatsAndList(){
       const items = getFilteredItems();
       const totalBooks = items.length;
       const totalDays = items.reduce((s,it)=> s + (it.days||0), 0);
@@ -1097,7 +1119,7 @@ input[type="text"], input[type="number"]{
               ${new Date(it.createdAt).toLocaleDateString()}
             </div>
           </td>
-          <td>${it.stars ? "⭐".repeat(it.stars) : "—"}</td>
+          <td class="col-stars">${starsHtml(it.stars)}</td>
           <td>${it.days || 0}</td>
           <td>${it.mins || 0}</td>
           <td style="text-align:right;">
