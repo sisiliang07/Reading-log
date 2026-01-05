@@ -764,6 +764,19 @@ input[type="text"], input[type="number"]{
   overflow: visible !important;
 }
 
+
+/* ===== Rating column: widen a bit more so 5 stars never clip ===== */
+#listTable th:nth-child(3),
+#listTable td:nth-child(3){
+  width: 92px !important;
+  min-width: 92px !important;
+  overflow: visible !important;
+}
+/* keep stars on one line */
+.rating{
+  white-space: nowrap !important;
+}
+
 </style>
 </head>
 
@@ -881,7 +894,7 @@ input[type="text"], input[type="number"]{
                 <tr>
                   <th style="width:70px;">#</th>
                   <th>书名</th>
-                  <th style="width:80px;">⭐</th>
+                  <th style="width:92px;">⭐</th>
                   <th style="width:80px;">天数</th>
                   <th style="width:90px;">分钟</th>
                   <th style="width:140px; text-align:right;">操作</th>
