@@ -34,18 +34,16 @@
     }
     *{ box-sizing:border-box; }
     body{
-      margin:0;
-      font-family: -apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Noto Sans SC",system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      color:var(--ink);
-      background: radial-gradient(1200px 800px at 20% 10%, var(--bg1) 0%, transparent 55%),
-                  radial-gradient(1000px 700px at 90% 10%, var(--bg2) 0%, transparent 55%),
-                  linear-gradient(180deg, #fff 0%, #faf7ff 40%, #fff 100%);
-      min-height:100vh;
-    }
-    .wrap{
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 20px 14px 60px;
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  color: var(--text);
+  /* 单层紫色底板 */
+  background: radial-gradient(1200px 700px at 20% 0%, #efe7ff 0%, rgba(239,231,255,0) 55%),
+              radial-gradient(900px 600px at 85% 20%, #f6dff0 0%, rgba(246,223,240,0) 55%),
+              linear-gradient(180deg, #f3ecff 0%, #f7f1ff 55%, #f3ecff 100%);
+  min-height:100vh;
+}
+    \.wrap{max-width: 980px; margin: 0 auto; padding: 10px 10px 18px;}
     }
     .hero{
       background: linear-gradient(135deg, rgba(108,99,255,.12), rgba(181,108,255,.10));
@@ -191,7 +189,7 @@ white-space: nowrap;
       text-align:center;
       box-shadow: 0 8px 18px rgba(40,20,90,.05);
     }
-    .stat .v{ font-size: 26px; font-weight: 800; letter-spacing:.2px; }
+    .stat .v{ font-size: 24px; font-weight: 800; letter-spacing:.2px; }
     .stat .k{ margin-top:4px; color: var(--muted); font-size: 13px; }
 
     /* Form */
@@ -659,8 +657,8 @@ input[type="text"], input[type="number"]{
   }
 
   /* 天数/分钟：表头与数字居中对齐 */
-  th:nth-child(4), td:nth-child(4) { width: 34px !important; text-align: center !important; }
-  th:nth-child(5), td:nth-child(5) { width: 34px !important; text-align: center !important; }
+  th:nth-child(4), td:nth-child(4) { width: 36px !important; text-align: center !important; }
+  th:nth-child(5), td:nth-child(5) { width: 36px !important; text-align: center !important; }
 
   /* 操作列：更窄，编辑/删除两行，小字，不加粗 */
   th:nth-child(6), td:nth-child(6) { width: 56px !important; text-align: center !important; }
@@ -676,21 +674,6 @@ input[type="text"], input[type="number"]{
     padding: 4px 6px !important;
     line-height: 1.1 !important;
   }
-    /* v28 tweaks: more space for title + full 5 stars */
-    .tableWrap{ padding: 0 6px !important; }
-    th, td{ padding: 10px 4px !important; }
-    th:nth-child(1), td:nth-child(1){ width: 26px !important; }
-    th:nth-child(3), td:nth-child(3){ width: 96px !important; }
-    th:nth-child(4), td:nth-child(4){ width: 40px !important; }
-    th:nth-child(5), td:nth-child(5){ width: 40px !important; }
-    th:nth-child(6), td:nth-child(6){ width: 56px !important; }
-    /* title: slightly smaller, don’t break inside a word */
-    td:nth-child(2) div:first-child{ font-size: 14px !important; line-height: 1.15 !important; word-break: normal !important; overflow-wrap: normal !important; hyphens: auto; }
-    /* stars: smaller + allow overflow so 5th star won’t be clipped */
-    td:nth-child(3){ font-size: 16px !important; white-space: nowrap !important; overflow: visible !important; }
-    /* headers: match the gray style */
-    th{ color: var(--muted) !important; font-weight: 600 !important; }
-    th:nth-child(4), th:nth-child(5), th:nth-child(6){ color: var(--muted) !important; }
 }
 
 </style>
@@ -804,24 +787,16 @@ input[type="text"], input[type="number"]{
   </div>
 </div>
 
-          <div class="tableWrap">
-            <table class="recordTable">
-            <colgroup>
-              <col class="cIdx" />
-              <col class="cTitle" />
-              <col class="cStars" />
-              <col class="cDays" />
-              <col class="cMins" />
-              <col class="cAct" />
-            </colgroup>
-            <thead>
+          <div style="overflow:auto; border-radius:16px;">
+            <table>
+              <thead>
                 <tr>
-                  <th>#</th>
+                  <th style="width:70px;">#</th>
                   <th>书名</th>
-                  <th style="text-align:center;">⭐</th>
-                  <th style="text-align:center;">天数</th>
-                  <th style="text-align:center;">分钟</th>
-                  <th style="text-align:right;">操作</th>
+                  <th style="width:70px;">⭐</th>
+                  <th style="width:80px;">天数</th>
+                  <th style="width:90px;">分钟</th>
+                  <th style="width:140px; text-align:right;">操作</th>
                 </tr>
               </thead>
               <tbody id="tbody"></tbody>
@@ -1115,18 +1090,20 @@ input[type="text"], input[type="number"]{
         const yearTag = y ? `<span class="tagYear">${y}</span>` : "";
 
         tr.innerHTML = `
-          <td class="idxCell">${idx+1}</td>
-          <td class="titleCell">
-            <div class="titleLine">${escapeHtml(it.title)} ${yearTag}</div>
-            <div class="subLine">${new Date(it.createdAt).toLocaleDateString()}</div>
+          <td>${idx+1}</td>
+          <td>
+            <div style="font-weight:800">${escapeHtml(it.title)} ${yearTag}</div>
+            <div class="muted" style="font-size:12px; margin-top:4px;">
+              ${new Date(it.createdAt).toLocaleDateString()}
+            </div>
           </td>
-          <td class="starCell">${(()=>{const n=Math.max(0,Math.min(5,Number(it.stars||0)));return `<span class=\"starsDisp\">`+Array.from({length:5},(_,i)=>`<span class=\"s ${i<n?'':'off'}\">${i<n?'★':'☆'}</span>`).join('')+`</span>`;})()}</td>
-          <td class="numCell">${it.days || 0}</td>
-          <td class="numCell">${it.mins || 0}</td>
-          <td class="actCell">
+          <td>${it.stars ? "⭐".repeat(it.stars) : "—"}</td>
+          <td>${it.days || 0}</td>
+          <td>${it.mins || 0}</td>
+          <td style="text-align:right;">
             <div class="ops">
-              <button class="btnMini btnGhost" data-act="edit" data-id="${it.id}">编辑</button>
-              <button class="btnMini btnDanger" data-act="del" data-id="${it.id}">删除</button>
+              <button class="btnGhost btnMini" data-act="edit" data-id="${it.id}">编辑</button>
+              <button class="btnDanger btnMini" data-act="del" data-id="${it.id}">删除</button>
             </div>
           </td>
         `;
