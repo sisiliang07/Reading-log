@@ -744,6 +744,26 @@ input[type="text"], input[type="number"]{
   margin-left: -6px !important;
 }
 
+
+/* ===== Fix: first star clipped & make 5th star fully visible ===== */
+/* Remove any negative shift on list stars */
+.rating .star{
+  margin-left: 0 !important;
+}
+
+/* Give the rating column a little more room */
+#listTable th:nth-child(3),
+#listTable td:nth-child(3){
+  width: 80px !important;
+  min-width: 80px !important;
+  overflow: visible !important;
+}
+
+/* Ensure the rating container itself won't clip */
+.rating{
+  overflow: visible !important;
+}
+
 </style>
 </head>
 
@@ -861,7 +881,7 @@ input[type="text"], input[type="number"]{
                 <tr>
                   <th style="width:70px;">#</th>
                   <th>书名</th>
-                  <th style="width:70px;">⭐</th>
+                  <th style="width:80px;">⭐</th>
                   <th style="width:80px;">天数</th>
                   <th style="width:90px;">分钟</th>
                   <th style="width:140px; text-align:right;">操作</th>
