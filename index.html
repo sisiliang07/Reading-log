@@ -233,7 +233,7 @@ white-space: nowrap;
     }
 
     /* Stars */
-    .stars{
+    .stars {
       display:flex;
       align-items:center;
       gap:8px;
@@ -242,7 +242,9 @@ white-space: nowrap;
       border: 1px solid rgba(255,255,255,.85);
       background: rgba(255,255,255,.70);
       box-shadow: 0 8px 18px rgba(40,20,90,.05);
-    }
+    
+  margin-left: -6px;
+}
     .starBtn{
       width: 40px; height: 40px;
       border-radius: 12px;
@@ -687,6 +689,35 @@ input[type="text"], input[type="number"]{
     padding: 4px 6px !important;
     line-height: 1.1 !important;
   }
+}
+
+
+/* backup buttons 2x2 */
+.backup-row, .backup-buttons {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+
+/* ===== Backup buttons: force 2x2 grid ===== */
+.backupGrid{
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  margin-top: 10px;
+}
+.backupGrid > button{
+  width: 100%;
+  white-space: nowrap;
+}
+
+
+/* ===== spacing between list and backup area ===== */
+.recordList + .backupGrid,
+.recordList + .backupArea,
+.backupGrid{
+  margin-top: 18px !important;
 }
 
 </style>
