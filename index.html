@@ -806,6 +806,20 @@ table tbody td:nth-child(3){
   white-space:nowrap;           /* keep (13h 0m) on one line */
 }
 
+
+/* ===== Title wrap fix: allow long words to break instead of clipping ===== */
+#listTable td:nth-child(2){
+  overflow: visible !important;
+}
+#listTable td:nth-child(2) .title,
+#listTable td:nth-child(2) .bookTitle,
+#listTable td:nth-child(2) .name,
+#listTable td:nth-child(2){
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;  /* modern */
+  word-break: break-word !important;   /* fallback */
+}
+
 </style>
 </head>
 
