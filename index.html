@@ -807,14 +807,19 @@ table tbody td:nth-child(3){
 }
 
 
-/* ===== Title wrap fix (real table selectors) ===== */
-tbody#tbody td:nth-child(2){
-  white-space: normal !important;
-}
+/* ===== Title single-line full display (no breaking). Scroll horizontally if too long ===== */
 tbody#tbody td:nth-child(2) > div{
-  white-space: normal !important;
-  overflow-wrap: anywhere !important;  /* break long words */
-  word-break: break-word !important;   /* fallback */
+  white-space: nowrap !important;   /* keep in one line */
+  overflow-x: auto !important;      /* allow horizontal scroll */
+  overflow-y: hidden !important;
+  text-overflow: clip !important;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 2px;              /* avoid clipping descenders on iOS */
+}
+/* hide scrollbar (WebKit) */
+tbody#tbody td:nth-child(2) > div::-webkit-scrollbar{
+  height: 0;
 }
 
 </style>
