@@ -806,14 +806,6 @@ table tbody td:nth-child(3){
   white-space:nowrap;           /* keep (13h 0m) on one line */
 }
 
-
-/* ===== Title auto-fit: one line, no scroll, no break ===== */
-.titleMain{
-  white-space: nowrap;
-  display: block;
-  max-width: 100%;
-}
-
 </style>
 </head>
 
@@ -925,7 +917,7 @@ table tbody td:nth-child(3){
   </div>
 </div>
 
-          <div style="overflow-x:hidden; border-radius:16px;">
+          <div style="overflow:auto; border-radius:16px;">
             <table>
               <thead>
                 <tr>
@@ -1127,33 +1119,7 @@ table tbody td:nth-child(3){
       return null;
     }
 
-    
-    function fitTitles(){
-      const nodes = document.querySelectorAll('.titleMain');
-      nodes.forEach(el=>{
-        el.style.fontSize = '';
-        el.style.transform = '';
-        el.style.transformOrigin = '';
-        const parent = el.parentElement;
-        if(!parent) return;
-        const avail = parent.clientWidth - 4;
-        const need = el.scrollWidth;
-        if(avail > 0 && need > avail){
-          const cs = window.getComputedStyle(el);
-          const base = parseFloat(cs.fontSize) || 16;
-          const ratio = avail / need;
-          const target = Math.max(11, Math.floor(base * ratio));
-          el.style.fontSize = target + 'px';
-          if(el.scrollWidth > avail){
-            const r2 = avail / el.scrollWidth;
-            el.style.transform = `scale(${Math.max(0.92, r2)})`;
-            el.style.transformOrigin = 'left center';
-          }
-        }
-      });
-    }
-
-function formatHM(totalMins){
+    function formatHM(totalMins){
       const h = Math.floor(totalMins / 60);
       const m = totalMins % 60;
       // main number on one line; converted time on a smaller gray line
@@ -1271,7 +1237,7 @@ function renderStatsAndList(){
         tr.innerHTML = `
           <td>${idx+1}</td>
           <td>
-            <div class="titleMain" style="font-weight:800">${escapeHtml(it.title)} ${yearTag}</div>
+            <div style="font-weight:800">${escapeHtml(it.title)} ${yearTag}</div>
             <div class="muted" style="font-size:12px; margin-top:4px;">
               ${new Date(it.createdAt).toLocaleDateString()}
             </div>
@@ -1287,7 +1253,6 @@ function renderStatsAndList(){
           </td>
         `;
         tb.appendChild(tr);
-        fitTitles();
       });
 
       // 绑定操作按钮
