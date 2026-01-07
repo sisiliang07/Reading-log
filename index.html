@@ -807,16 +807,13 @@ table tbody td:nth-child(3){
 }
 
 
-/* ===== Title wrap fix: allow long words to break instead of clipping ===== */
-#listTable td:nth-child(2){
-  overflow: visible !important;
-}
-#listTable td:nth-child(2) .title,
-#listTable td:nth-child(2) .bookTitle,
-#listTable td:nth-child(2) .name,
-#listTable td:nth-child(2){
+/* ===== Title wrap fix (real table selectors) ===== */
+tbody#tbody td:nth-child(2){
   white-space: normal !important;
-  overflow-wrap: anywhere !important;  /* modern */
+}
+tbody#tbody td:nth-child(2) > div{
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;  /* break long words */
   word-break: break-word !important;   /* fallback */
 }
 
