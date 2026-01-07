@@ -806,6 +806,19 @@ table tbody td:nth-child(3){
   white-space:nowrap;           /* keep (13h 0m) on one line */
 }
 
+
+/* ===== Title wrapping rule: wrap at spaces, never break inside a word ===== */
+td:nth-child(2) .titleMain{
+  white-space: normal !important;        /* allow wrapping */
+  word-break: normal !important;         /* don't break words */
+  overflow-wrap: normal !important;      /* don't force-break long words */
+  hyphens: manual !important;            /* don't auto-hyphenate */
+}
+/* make sure title isn't clipped */
+td:nth-child(2){
+  overflow: visible !important;
+}
+
 </style>
 </head>
 
@@ -1237,7 +1250,7 @@ function renderStatsAndList(){
         tr.innerHTML = `
           <td>${idx+1}</td>
           <td>
-            <div style="font-weight:800">${escapeHtml(it.title)} ${yearTag}</div>
+            <div class="titleMain" style="font-weight:800">${escapeHtml(it.title)} ${yearTag}</div>
             <div class="muted" style="font-size:12px; margin-top:4px;">
               ${new Date(it.createdAt).toLocaleDateString()}
             </div>
