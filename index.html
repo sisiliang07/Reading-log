@@ -807,19 +807,11 @@ table tbody td:nth-child(3){
 }
 
 
-/* ===== Title single-line full display (no breaking). Scroll horizontally if too long ===== */
-tbody#tbody td:nth-child(2) > div{
-  white-space: nowrap !important;   /* keep in one line */
-  overflow-x: auto !important;      /* allow horizontal scroll */
-  overflow-y: hidden !important;
-  text-overflow: clip !important;
+/* ===== Title: always show full long word on ONE line (no scroll, no breaking) ===== */
+.titleMain{
+  white-space: nowrap;
   max-width: 100%;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 2px;              /* avoid clipping descenders on iOS */
-}
-/* hide scrollbar (WebKit) */
-tbody#tbody td:nth-child(2) > div::-webkit-scrollbar{
-  height: 0;
+  display: block;
 }
 
 </style>
@@ -1135,7 +1127,39 @@ tbody#tbody td:nth-child(2) > div::-webkit-scrollbar{
       return null;
     }
 
-    function formatHM(totalMins){
+    
+    function fitTitles(){
+      // Shrink long titles so they fit in one line without scrolling or breaking
+      const nodes = document.querySelectorAll('.titleMain');
+      nodes.forEach(el=>{
+        // reset to default (inherits)
+        el.style.fontSize = '';
+        el.style.transform = '';
+        el.style.transformOrigin = '';
+        // measure overflow
+        const parent = el.parentElement; // td
+        if(!parent) return;
+        const avail = parent.clientWidth - 2; // small buffer
+        const need = el.scrollWidth;
+        if(avail > 0 && need > avail){
+          // Prefer font-size reduction down to a safe minimum
+          const cs = window.getComputedStyle(el);
+          const base = parseFloat(cs.fontSize) || 16;
+          const ratio = avail / need;
+          const target = Math.max(11, Math.floor(base * ratio)); // min 11px
+          el.style.fontSize = target + 'px';
+          // If still slightly overflowing (emoji/year tag), apply a tiny scale as final fallback
+          if(el.scrollWidth > avail){
+            const r2 = avail / el.scrollWidth;
+            el.style.transform = `scale(${Math.max(0.92, r2)})`;
+            el.style.transformOrigin = 'left center';
+          }
+        }
+      });
+    }
+
+
+function formatHM(totalMins){
       const h = Math.floor(totalMins / 60);
       const m = totalMins % 60;
       // main number on one line; converted time on a smaller gray line
@@ -1253,7 +1277,7 @@ function renderStatsAndList(){
         tr.innerHTML = `
           <td>${idx+1}</td>
           <td>
-            <div style="font-weight:800">${escapeHtml(it.title)} ${yearTag}</div>
+            <div class="titleMain" style="font-weight:800">${escapeHtml(it.title)} ${yearTag}</div>
             <div class="muted" style="font-size:12px; margin-top:4px;">
               ${new Date(it.createdAt).toLocaleDateString()}
             </div>
@@ -1270,6 +1294,9 @@ function renderStatsAndList(){
         `;
         tb.appendChild(tr);
       });
+
+      fitTitles();
+
 
       // 绑定操作按钮
       tb.querySelectorAll("button").forEach(btn=>{
